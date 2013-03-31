@@ -6,7 +6,24 @@
   <script src="js/client/connect.js"></script>
 </head>
 <body>
-  Hey buddy.
+  <div>Hey buddy. Would you like to play a game?</div>
+  <form class="add-player" autocomplete="off">
+    <p>
+      <label for='name'>Your Name</label>
+      <input type="text" name="name">
+    </p>
+    <p>
+      <label for='kindOfDog'>What kind of dog are you?</label><br>
+      <input type="radio" name="kindOfDog" value="Pug">Pug<br>
+      <input type="radio" name="kindOfDog" value="Collie">Collie<br>
+      <input type="radio" name="kindOfDog" value="Greyhound">Greyhound<br>
+      <input type="radio" name="kindOfDog" value="Corgi">Corgi<br>
+    </p>
+    <input type="submit">
+  </form>
+
+  <ul class="current-players">
+  </ul>
 </body>
 </html>
 
