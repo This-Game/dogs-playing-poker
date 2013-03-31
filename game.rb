@@ -1,28 +1,26 @@
-require 'deck'
-require 'card'
-require 'dog'
+#!/bin/env ruby
+# encoding: utf-8
 require 'rubygems'
 require 'chance'
+require 'pp'
+require 'optparse'
 
-deck = Deck.new
+require_relative 'deck'
+require_relative 'card'
+require_relative 'dog'
 
-%w{2 3 4 5 6 7 8 9 10 Jack Queen King Ace}.each do |rank|
-  %w{Spades Hearts Diamonds Clubs}.each_with_index do |suit, i|
-    deck.cards << Card.new(rank, suit)
-  end
-end
-
-hand1 = 5.times.collect { deck.cards.random_pop}
-
-puts "The true hand:"
-puts hand1
-puts
+puts Dog.all
 puts
 
-Dog.dogs.each do |class_of_dog|
+Dog.all.each do |class_of_dog|
   dog = class_of_dog.new
-  puts dog.name + " will now read the cards."
-  dog.read hand1
+  deck = Deck.new
+  hand = 5.times.collect { deck.cards.random_pop}
+  puts dog.name + " will now read their hand."
+  dog.read hand
+  puts "--------"
+  puts "The true hand:"
+  puts hand
   puts
   puts
 end

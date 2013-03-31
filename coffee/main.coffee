@@ -1,13 +1,7 @@
 DogsPlayingPoker = module.exports = {}
-
 {Card} = require 'coffee/card.coffee'
 {Deck} = require 'coffee/deck.coffee'
 {Dog} = require 'coffee/dog.coffee'
-
-card = new Card '7', 'Spades'
-deck = new Deck
-
-console.log deck
 
 for classOfDog in Dog.all
   dog = new classOfDog
