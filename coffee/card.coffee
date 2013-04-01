@@ -21,4 +21,14 @@ class Card
   toString: ->
     "#{@rank} of #{@suit}"
 
+  suitSymbol: ->
+    switch @suit
+      when "Diamonds" then '&diams;'
+      when "Hearts" then '&hearts;'
+      when "Spades" then '&spades;'
+      when "Clubs" then '&clubs;'
+
+  suitClass: ->
+    @suit.toLowerCase()
+
 exports.Card = Card

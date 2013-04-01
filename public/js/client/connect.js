@@ -22,7 +22,7 @@
     socket = io.connect("http://localhost:2222/game.prototype");
     socket.on("connect", function() {
       socket.on("updatedHand", function(hand) {
-        return console.log("HAND", hand);
+        return $('.card-table').html(hand);
       });
       socket.on("updatedPlayersList", function(players) {
         var isCurrent, name, player, playerList, _results;

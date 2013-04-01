@@ -15,7 +15,7 @@ $ ->
     #   console.log "Disconnecting", data
 
     socket.on "updatedHand", (hand) ->
-      console.log("HAND", hand)
+      $('.card-table').html(hand)
 
     socket.on "updatedPlayersList", (players) ->
       playerList = $('.current-players').empty()

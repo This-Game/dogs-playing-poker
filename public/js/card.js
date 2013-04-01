@@ -40,6 +40,23 @@
       return "" + this.rank + " of " + this.suit;
     };
 
+    Card.prototype.suitSymbol = function() {
+      switch (this.suit) {
+        case "Diamonds":
+          return '&diams;';
+        case "Hearts":
+          return '&hearts;';
+        case "Spades":
+          return '&spades;';
+        case "Clubs":
+          return '&clubs;';
+      }
+    };
+
+    Card.prototype.suitClass = function() {
+      return this.suit.toLowerCase();
+    };
+
     return Card;
 
   })();
