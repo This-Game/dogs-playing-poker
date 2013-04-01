@@ -8,7 +8,7 @@
       var rank, suit, _i, _j, _len, _len1, _ref, _ref1;
 
       this.cards = [];
-      _ref = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'Jack', 'Queen', 'King', 'Ace'];
+      _ref = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A'];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         rank = _ref[_i];
         _ref1 = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];

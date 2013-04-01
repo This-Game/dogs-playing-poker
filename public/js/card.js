@@ -8,14 +8,14 @@
     }
 
     Card.prototype.value = function() {
-      switch (day) {
-        case "Ace":
+      switch (this.rank) {
+        case "A":
           return 14;
-        case "King":
+        case "K":
           return 13;
-        case "Queen":
+        case "Q":
           return 12;
-        case "Jack":
+        case "J":
           return 11;
         default:
           return this.rank;
@@ -23,7 +23,7 @@
     };
 
     Card.prototype.isAce = function() {
-      return this.rank === 'Ace';
+      return this.rank === 'A';
     };
 
     Card.prototype.isFaceCard = function() {
@@ -37,7 +37,22 @@
     };
 
     Card.prototype.toString = function() {
-      return "" + this.rank + " of " + this.suit;
+      return "" + this.rankName + " of " + this.suit;
+    };
+
+    Card.prototype.rankName = function() {
+      switch (this.rank) {
+        case "A":
+          return "Ace";
+        case "K":
+          return "K";
+        case "Q":
+          return "Queen";
+        case "J":
+          return "Jack";
+        default:
+          return this.rank;
+      }
     };
 
     Card.prototype.suitSymbol = function() {

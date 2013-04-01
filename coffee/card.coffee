@@ -2,15 +2,15 @@ class Card
   constructor: (@rank, @suit) ->
 
   value: ->
-    switch day
-      when "Ace" then 14
-      when "King" then 13
-      when "Queen" then 12
-      when "Jack" then 11
+    switch @rank
+      when "A" then 14
+      when "K" then 13
+      when "Q" then 12
+      when "J" then 11
       else @rank
 
   isAce: ->
-    @rank is 'Ace'
+    @rank is 'A'
 
   isFaceCard: ->
     @value > 10 and @value < 14
@@ -19,7 +19,15 @@ class Card
     @suit in ["Diamonds", "Hearts"]
 
   toString: ->
-    "#{@rank} of #{@suit}"
+    "#{@rankName} of #{@suit}"
+
+  rankName: ->
+    switch @rank
+      when "A" then "Ace"
+      when "K" then "K"
+      when "Q" then "Queen"
+      when "J" then "Jack"
+      else @rank
 
   suitSymbol: ->
     switch @suit
