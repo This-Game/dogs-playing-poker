@@ -9,27 +9,36 @@ $.fn.serializeObject = ->
       o[@name] = @value or ""
 
 $ ->
-  console.log "Here we go!"
-  socket = io.connect("http://localhost:2222")
+  socket = io.connect("http://localhost:2222/game.prototype")
   socket.on "connect", ->
-    socket.on "addPlayer", (data) ->
-      console.log "Event!", data
-
     socket.on "disconnect", (data) ->
       console.log "Disconnecting", data
 
-    socket.on "playerAdded", (players) ->
+    socket.on "updatedPlayersList", (players) ->
       playerList = $('.current-players').empty()
       for name, player of players
-        playerList.append $("<li data-player-name='#{name}'>#{player.name} is a #{player.kindOfDog}</li>")
+        isCurrent = name == $.cookie('current-player')
+        playerList.append $("<li cdata-player-name='#{name}'>#{player.name} is a #{player.kindOfDog}</li>")
 
-  $('form.add-player input[type=submit]').click (event) ->
-    event.stopPropagation();
+    socket.on "playerJoined", (playerName) ->
+      if $.cookie "current-player" is playerName
+        $('.add-player').hide();
+
+    socket.on "playerLeft", (playerName) ->
+      if $.cookie "current-player" is playerName
+        $.cookie("current-player", null)
+        $('.add-player').show();
+
+  $('.add-player .submit').click (event) ->
     player = {}
     for field in $(this.parentElement).find(':input')
       if field.type is 'text' || field.type is 'radio' and field.checked
         player[field.name] = field.value
+    $.cookie "current-player", player.name
     socket.emit "addPlayer", player
-    false
+
+  $('.leave-game').click (event) ->
+    socket.emit "leave-game", $.cookie("current-player")
+
 
 

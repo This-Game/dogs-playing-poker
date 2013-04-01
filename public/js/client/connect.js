@@ -19,31 +19,38 @@
   $(function() {
     var socket;
 
-    console.log("Here we go!");
-    socket = io.connect("http://localhost:2222");
+    socket = io.connect("http://localhost:2222/game.prototype");
     socket.on("connect", function() {
-      socket.on("addPlayer", function(data) {
-        return console.log("Event!", data);
-      });
       socket.on("disconnect", function(data) {
         return console.log("Disconnecting", data);
       });
-      return socket.on("playerAdded", function(players) {
-        var name, player, playerList, _results;
+      socket.on("updatedPlayersList", function(players) {
+        var isCurrent, name, player, playerList, _results;
 
         playerList = $('.current-players').empty();
         _results = [];
         for (name in players) {
           player = players[name];
-          _results.push(playerList.append($("<li data-player-name='" + name + "'>" + player.name + " is a " + player.kindOfDog + "</li>")));
+          isCurrent = name === $.cookie('current-player');
+          _results.push(playerList.append($("<li cdata-player-name='" + name + "'>" + player.name + " is a " + player.kindOfDog + "</li>")));
         }
         return _results;
       });
+      socket.on("playerJoined", function(playerName) {
+        if ($.cookie("current-player" === playerName)) {
+          return $('.add-player').hide();
+        }
+      });
+      return socket.on("playerLeft", function(playerName) {
+        if ($.cookie("current-player" === playerName)) {
+          $.cookie("current-player", null);
+          return $('.add-player').show();
+        }
+      });
     });
-    return $('form.add-player input[type=submit]').click(function(event) {
+    $('.add-player .submit').click(function(event) {
       var field, player, _i, _len, _ref;
 
-      event.stopPropagation();
       player = {};
       _ref = $(this.parentElement).find(':input');
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -52,8 +59,11 @@
           player[field.name] = field.value;
         }
       }
-      socket.emit("addPlayer", player);
-      return false;
+      $.cookie("current-player", player.name);
+      return socket.emit("addPlayer", player);
+    });
+    return $('.leave-game').click(function(event) {
+      return socket.emit("leave-game", $.cookie("current-player"));
     });
   });
 

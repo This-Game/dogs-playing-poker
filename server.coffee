@@ -4,25 +4,34 @@ express = require("express")
 
 app = express()
 server = require("http").createServer(app)
-io = io.listen(server)
-server.listen 2222
-
+app.configure -> app.use(express.static(__dirname + '/public'))
 app.use express.bodyParser()
 app.use express.methodOverride()
 app.use app.router
 
-app.get '/players', (req, res) ->
-  res.json
+app.get '/', (req, res) ->
+  res.sendfile(__dirname + '/index.html')
 
-Game = {
+ioServer = io.listen(server)
+server.listen 2222
+
+Game =
   players: {}
-}
 
-io.sockets.on "connection", (socket) ->
+gameChannel = ioServer.of('/game.prototype')
+
+gameChannel.on "connection", (socket) ->
   console.log "Connecting to #{socket}"
+  socket.emit "updatedPlayersList", Game.players
+
   socket.on "addPlayer", (playerData) ->
+    console.log "Adding Player #{playerData}, now we have", Game.players
     Game.players[playerData.name] = playerData
-    console.log "Players are now", Game.players
-    socket.emit "playerAdded", Game.players
+    gameChannel.emit "updatedPlayersList", Game.players
+    socket.emit "playerJoined", playerData.name
 
-
+  socket.on "leave-game", (playerName) ->
+    console.log "Removing Player #{playerName}, now we have", Game.players
+    delete Game.players[playerName]
+    gameChannel.emit "updatedPlayersList", Game.players
+    socket.emit "playerLeft", playerName
