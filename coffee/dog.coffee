@@ -39,5 +39,5 @@ class Corgi extends Dog
   value_for: (card) ->
     "Something of #{card.suit}"
 
-Dog.all = [Collie, Greyhound, Pug, Corgi]
+Dog.byName = "Collie": Collie, "Greyhound": Greyhound, "Pug": Pug, "Corgi": Corgi
 exports.Dog = Dog

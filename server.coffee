@@ -15,10 +15,8 @@ app.get '/', (req, res) ->
 ioServer = io.listen(server)
 server.listen 2222
 
-Game =
-  players: {}
-
-gameChannel = ioServer.of('/game.prototype')
+{Game} = require 'game.coffee'
+gameChannel = ioServer.of '/game.prototype'
 
 gameChannel.on "connection", (socket) ->
   console.log "Connecting to #{socket}"
@@ -26,9 +24,10 @@ gameChannel.on "connection", (socket) ->
 
   socket.on "addPlayer", (playerData) ->
     console.log "Adding Player #{playerData}, now we have", Game.players
-    Game.players[playerData.name] = playerData
+    Game.addPlayer(playerData)
     gameChannel.emit "updatedPlayersList", Game.players
     socket.emit "playerJoined", playerData.name
+    socket.emit "updatedHand", playerData.hand
 
   socket.on "leave-game", (playerName) ->
     console.log "Removing Player #{playerName}, now we have", Game.players

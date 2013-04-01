@@ -11,8 +11,11 @@ $.fn.serializeObject = ->
 $ ->
   socket = io.connect("http://localhost:2222/game.prototype")
   socket.on "connect", ->
-    socket.on "disconnect", (data) ->
-      console.log "Disconnecting", data
+    # socket.on "disconnect", (data) ->
+    #   console.log "Disconnecting", data
+
+    socket.on "updatedHand", (hand) ->
+      console.log("HAND", hand)
 
     socket.on "updatedPlayersList", (players) ->
       playerList = $('.current-players').empty()

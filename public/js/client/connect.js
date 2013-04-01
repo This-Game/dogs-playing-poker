@@ -21,8 +21,8 @@
 
     socket = io.connect("http://localhost:2222/game.prototype");
     socket.on("connect", function() {
-      socket.on("disconnect", function(data) {
-        return console.log("Disconnecting", data);
+      socket.on("updatedHand", function(hand) {
+        return console.log("HAND", hand);
       });
       socket.on("updatedPlayersList", function(players) {
         var isCurrent, name, player, playerList, _results;
