@@ -6,11 +6,11 @@ Game =
   players: {}
 
   deck: new Deck
+
   addPlayer: (player) ->
     unless Game.players[player.name]
       KindOfDog = Dog.byName[player.kindOfDog]
-      player.dog = new KindOfDog
-      player.hand = {cards: Game.deck.take 5}
-      Game.players[player.name] = player
+      player.cards = Game.deck.take 5
+      Game.players[player.name] = new KindOfDog(player)
 
 exports.Game = Game

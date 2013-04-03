@@ -11,28 +11,35 @@
 </head>
 <body>
   <div class="container">
-    <div>Hey buddy. Would you like to play a game?</div>
-    <form class="add-player" autocomplete="off">
-      <p>
-        <label for='name'>Your Name</label>
-        <input type="text" name="name">
-      </p>
-      <p>
-        <label for='kindOfDog'>What kind of dog are you?</label><br>
-        <input type="radio" name="kindOfDog" value="Pug">Pug<br>
-        <input type="radio" name="kindOfDog" value="Collie">Collie<br>
-        <input type="radio" name="kindOfDog" value="Greyhound">Greyhound<br>
-        <input type="radio" name="kindOfDog" value="Corgi">Corgi<br>
-      </p>
-      <a class='submit btn'>Join the Game</a>
-    </form>
-
-    <ul class="current-players">
-    </ul>
-
-    <div class='card-table'></div>
-
-    <a class='leave-game btn'>Leave game</a>
+    <div class="row top-bar">
+      <div class="span12">
+        <h1>Dogs Playing Poker: The Game</h1>
+        <p>THE CARD GAME</p>
+        <form class="add-player" autocomplete="off">
+          <span>
+            <label for='name'>Your Name</label>
+            <input type="text" name="name">
+          </span>
+          <span>
+            <label for='kindOfDog'>What kind of dog are you?</label><br>
+            <input type="radio" name="kindOfDog" value="Pug">Pug<br>
+            <input type="radio" name="kindOfDog" value="Collie">Collie<br>
+            <input type="radio" name="kindOfDog" value="Greyhound">Greyhound<br>
+            <input type="radio" name="kindOfDog" value="Corgi">Corgi<br>
+          </span>
+          <a class='submit btn'>Join the Game</a>
+          <a class='leave-game btn'>Leave game</a>
+        </form>
+        <ul class="current-players"></ul>
+      </div>
+    </div>
+    <div class='row'>
+      <div class="span8 game-area">
+        <div class='card-table'></div>
+      </div>
+      <div class="span4 sidebar">
+      </div>
+    </div>
   </div>
 </body>
 </html>

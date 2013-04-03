@@ -15,11 +15,11 @@ class Card
   isFaceCard: ->
     @value > 10 and @value < 14
 
-  isRed: ->
-    @suit in ["Diamonds", "Hearts"]
+  color: ->
+    if @suit in ["Diamonds", "Hearts"] then "Red" else "Black"
 
   toString: ->
-    "#{@rankName} of #{@suit}"
+    "#{@rankName()} of #{@suit}"
 
   rankName: ->
     switch @rank
@@ -27,6 +27,7 @@ class Card
       when "K" then "K"
       when "Q" then "Queen"
       when "J" then "Jack"
+      when "Number" then "٢"
       else @rank
 
   suitSymbol: ->
@@ -35,8 +36,32 @@ class Card
       when "Hearts" then '&hearts;'
       when "Spades" then '&spades;'
       when "Clubs" then '&clubs;'
+      else @randomSuitSymbol()
 
   suitClass: ->
     @suit.toLowerCase()
+
+  randomSuitSymbol: ->
+    symbols =[
+      "&#10021;",
+      "&#10083;",
+      "&#10087;",
+      "&#9877;",
+      "&#41402;",
+      "&#3572;",
+      "&#9876;",
+      "&#164;",
+      "&#9800;",
+      "&#9733;",
+      "&#10047;",
+      "&#10056;",
+      "&#9096;",
+      "&#9798;"
+    ]
+    symbols[Math.floor(Math.random() * symbols.length)]
+
+# king and queen:
+# &#9819;
+# &#9812;
 
 exports.Card = Card

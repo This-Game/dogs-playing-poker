@@ -30,14 +30,18 @@
       return this.value > 10 && this.value < 14;
     };
 
-    Card.prototype.isRed = function() {
+    Card.prototype.color = function() {
       var _ref;
 
-      return (_ref = this.suit) === "Diamonds" || _ref === "Hearts";
+      if ((_ref = this.suit) === "Diamonds" || _ref === "Hearts") {
+        return "Red";
+      } else {
+        return "Black";
+      }
     };
 
     Card.prototype.toString = function() {
-      return "" + this.rankName + " of " + this.suit;
+      return "" + (this.rankName()) + " of " + this.suit;
     };
 
     Card.prototype.rankName = function() {
@@ -65,6 +69,8 @@
           return '&spades;';
         case "Clubs":
           return '&clubs;';
+        default:
+          return '&#9800;';
       }
     };
 

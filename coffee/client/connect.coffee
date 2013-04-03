@@ -13,6 +13,8 @@ $ ->
   socket.on "connect", ->
     # socket.on "disconnect", (data) ->
     #   console.log "Disconnecting", data
+    if $.cookie 'current-player'
+      socket.emit "rejoining", $.cookie('current-player')
 
     socket.on "updatedHand", (hand) ->
       $('.card-table').html(hand)
@@ -31,6 +33,7 @@ $ ->
       if $.cookie "current-player" is playerName
         $.cookie("current-player", null)
         $('.add-player').show();
+        $('.card-table').empty();
 
   $('.add-player .submit').click (event) ->
     player = {}

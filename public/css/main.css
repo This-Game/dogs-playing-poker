@@ -1,3 +1,36 @@
+.container {
+  background: url('/img/dogs_player_poker.jpg') no-repeat;
+  height: 100%;
+}
+
+h1 {
+  text-align: center;
+}
+
+.top-bar {
+  background: white;
+  opacity: 0.7;
+}
+
+.top-bar * {
+  color: #000000;
+}
+
+.top-bar span, .top-bar li, .top-bar input {
+  display: inline;
+}
+
+.game-area {
+  height: 100%;
+  width: 100%;
+}
+
+.card-table {
+  text-align: center;
+  position: relative;
+  top: 288px;
+}
+
 .card-table .card {
     display: inline-block;
     width: 3.3em;
@@ -33,6 +66,10 @@
     -o-transition: bottom .15s;
     transition: bottom .15s;
 }
+
+.card-table .card.red { color: #f00 }
+.card-table .card.diamonds { color: #000 }
+
 .card-table .card.diamonds { color: #f00 }
 .card-table .card.hearts { color: #f00 }
 .card-table .card.spades { color: #000 }
@@ -79,5 +116,12 @@
 }
 .card-table .card.clubs .suit:after {
     content: "\2663";
+    right: .3em;
+}
+
+.card-table .card.blobs .suit:after,
+.card-table .card.red .suit:after,
+.card-table .card.black .suit:after {
+    content: "❈";
     right: .3em;
 }

@@ -1,12 +1,23 @@
 (function() {
-  var Collie, Corgi, Dog, Greyhound, Pug, _ref, _ref1, _ref2, _ref3,
+  var Collie, Corgi, Dog, Greyhound, Pug, _, _ref, _ref1, _ref2, _ref3,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  Dog = (function() {
-    function Dog() {}
+  _ = require('underscore');
 
-    Dog.prototype.name = function() {
+  Dog = (function() {
+    function Dog(playerData) {
+      this.name = playerData.name;
+      this.kindOfDog = playerData.kindOfDog;
+      this.hand = {
+        cards: playerData.cards
+      };
+      this.perspectivalHand = {
+        cards: this.read(playerData.cards)
+      };
+    }
+
+    Dog.prototype.name = function(handOfCards) {
       return this.constructor.name;
     };
 
@@ -16,12 +27,12 @@
       _results = [];
       for (_i = 0, _len = cards.length; _i < _len; _i++) {
         card = cards[_i];
-        _results.push(console.log(this.value_for(card)));
+        _results.push(this.valueFor(card));
       }
       return _results;
     };
 
-    Dog.prototype.value_for = function(card) {
+    Dog.prototype.valueFor = function(card) {
       throw "Plz implement this on your own damn dog";
     };
 
@@ -37,11 +48,14 @@
       return _ref;
     }
 
-    Collie.prototype.value_for = function(card) {
+    Collie.prototype.valueFor = function(card) {
       var val;
 
       val = card.isFaceCard() ? "Person" : card.value;
-      return "" + val + " of blobs";
+      return {
+        suit: "blobs",
+        rank: val
+      };
     };
 
     return Collie;
@@ -56,11 +70,14 @@
       return _ref1;
     }
 
-    Greyhound.prototype.value_for = function(card) {
+    Greyhound.prototype.valueFor = function(card) {
       var val;
 
       val = card.isFaceCard() || card.isAce() ? card.rank : "Some number";
-      return "" + val + " of blobs";
+      return {
+        suit: "blobs",
+        rank: val
+      };
     };
 
     return Greyhound;
@@ -75,12 +92,14 @@
       return _ref2;
     }
 
-    Pug.prototype.value_for = function(card) {
-      var color, rank;
+    Pug.prototype.valueFor = function(card) {
+      var rank;
 
-      color = card.isRed() ? 'Red' : 'Black';
       rank = card.isFaceCard() ? "Person" : "Number";
-      return "" + rank + " of " + color;
+      return {
+        suit: card.color(),
+        rank: rank
+      };
     };
 
     return Pug;
@@ -95,8 +114,11 @@
       return _ref3;
     }
 
-    Corgi.prototype.value_for = function(card) {
-      return "Something of " + card.suit;
+    Corgi.prototype.valueFor = function(card) {
+      return {
+        suit: card.suit,
+        rank: "?"
+      };
     };
 
     return Corgi;

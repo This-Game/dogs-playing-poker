@@ -21,6 +21,9 @@
 
     socket = io.connect("http://localhost:2222/game.prototype");
     socket.on("connect", function() {
+      if ($.cookie('current-player')) {
+        socket.emit("rejoining", $.cookie('current-player'));
+      }
       socket.on("updatedHand", function(hand) {
         return $('.card-table').html(hand);
       });
@@ -44,7 +47,8 @@
       return socket.on("playerLeft", function(playerName) {
         if ($.cookie("current-player" === playerName)) {
           $.cookie("current-player", null);
-          return $('.add-player').show();
+          $('.add-player').show();
+          return $('.card-table').empty();
         }
       });
     });
