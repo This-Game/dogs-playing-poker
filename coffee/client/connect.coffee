@@ -1,32 +1,31 @@
 $ ->
+  setCurrentPlayer = (id) ->
+    throw "WTF" if not id or id is 'null'
+    $.cookie('current-player', id)
+
   socket = io.connect("http://localhost:2222/game.prototype")
-  if $.cookie 'current-player'
-    console.log "Jankypants"
+  if $.cookie('current-player')?
     socket.emit("playerRejoined", $.cookie('current-player'))
 
   socket.on "connect", ->
-    if $.cookie 'current-player'
+    if $.cookie('current-player')?
       socket.emit "playerRejoined", $.cookie('current-player')
 
     socket.on "updatedHand", (hand) ->
       $('.card-table').html(hand)
       console.log 'hand', hand
 
-    socket.on "updatedPlayersList", (players) ->
-      playerList = $('.current-players').empty()
-      for id, player of players
-        isCurrent = id == $.cookie('current-player')
-        playerList.append $("<li cdata-player-id='#{id}'>#{player.name} is a #{player.kindOfDog}</li>")
+    socket.on "updatedPlayersList", (playerListHTML) ->
+      $('.current-players').html(playerListHTML)
 
     socket.on "playerJoined", (playerId) ->
-      if playerId
-        $.cookie('current-player', playerId) if playerId
-        $('.leave-game').show()
-        $('.add-player').hide()
+      setCurrentPlayer playerId
+      $('.leave-game').show()
+      $('.add-player').hide()
 
     socket.on "playerLeft", (playerId) ->
       if $.cookie "current-player" is playerId
-        $.cookie("current-player", null)
+        $.removeCookie("current-player")
         $('.add-player').show()
         $('.card-table').empty()
 

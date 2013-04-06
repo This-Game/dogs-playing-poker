@@ -23,14 +23,17 @@ server.listen 2222
 
 gameChannel = ioServer.of '/game.prototype'
 
+renderPlayerList = ->
+  MustacheViews.playerList.render players: _(Game.players).values()
+
 gameChannel.on "connection", (socket) ->
   console.log "Connecting to #{socket}"
-  socket.emit "updatedPlayersList", Game.players
+  socket.emit "updatedPlayersList", renderPlayerList()
 
   socket.on "playerRejoined", (playerId) ->
     console.log "BAY BAY BAY", playerId, Game.possiblyFindPlayer(playerId)
     if player = Game.possiblyFindPlayer(playerId)
-      gameChannel.emit "updatedPlayersList", Game.players
+      gameChannel.emit "updatedPlayersList", renderPlayerList()
       socket.emit "playerJoined", player.id
       socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
     else
@@ -38,7 +41,7 @@ gameChannel.on "connection", (socket) ->
 
   socket.on "addPlayer", (playerData) ->
     player = Game.addPlayer(playerData)
-    gameChannel.emit "updatedPlayersList", Game.players
+    gameChannel.emit "updatedPlayersList", renderPlayerList()
     gameChannel.emit "updatedDeck", deckSize: Game.deck.size()
     socket.emit "playerJoined", player.id
     socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
@@ -54,7 +57,7 @@ gameChannel.on "connection", (socket) ->
 
   socket.on "leaveGame", (playerId) ->
     Game.removePlayer(playerId)
-    gameChannel.emit "updatedPlayersList", Game.players
+    gameChannel.emit "updatedPlayersList", renderPlayerList()
     socket.emit "playerLeft", playerName
 
 app.get '/', (req, res) ->
