@@ -1,9 +1,9 @@
 <div class="hand">
+  <button class='btn btn-small exchange'>Exchange selected cards</button>
   {{#cards}}
-  <div id="{{id}}" class="card-holder">
-    <button class='btn btn-small trade'>Trade</button>
-    <button class='btn btn-small show' >Show</button>
-    <span class="card {{suitClass}}">
+  <div class="card-holder">
+    <button class='btn btn-small show'>Show</button>
+    <span id="{{id}}" class="card {{suitClass}}">
       <span class="rank">{{rankName}}</span>
       <span class="suit">{{{suitSymbol}}}</span>
     </span><br/>

@@ -44,6 +44,10 @@ $ ->
       $('.add-player').show()
       $('.card-table').empty()
 
-  $('.card-table').on "click", ".btn.trade", (event) ->
-    cardId = @parentElement.id
-    socket.emit "exchangeCards", $.cookie("current-player"), [cardId]
+  $('.card-table').on "click", '.card', ->
+    $(".btn.exchange").css('display', 'block')
+    $(this).addClass 'selected'
+
+  $('.card-table').on "click", ".exchange", ->
+    cardIds = (card.id for card in $('.card-table .selected'))
+    socket.emit "exchangeCards", $.cookie("current-player"), cardIds
