@@ -12,25 +12,28 @@
 <body>
   <div class="container">
     <div class="row top-bar">
-      <div class="span12">
+      <div class="span10">
         <h1>Dogs Playing Poker: The Game</h1>
         <p>THE CARD GAME</p>
         <form class="add-player" autocomplete="off">
           <span>
             <label for='name'>Your Name</label>
-            <input type="text" name="name">
+            <input type="text" name="name" value="Hank McJank">
           </span>
           <span>
             <label for='kindOfDog'>What kind of dog are you?</label><br>
+            <input type="radio" name="kindOfDog" value="Human" checked="1">Human<br>
             <input type="radio" name="kindOfDog" value="Pug">Pug<br>
             <input type="radio" name="kindOfDog" value="Collie">Collie<br>
             <input type="radio" name="kindOfDog" value="Greyhound">Greyhound<br>
             <input type="radio" name="kindOfDog" value="Corgi">Corgi<br>
           </span>
           <a class='submit btn'>Join the Game</a>
-          <a class='leave-game btn'>Leave game</a>
         </form>
+      </div>
+      <div class="players span2">
         <ul class="current-players"></ul>
+        <a class='leave-game btn'>Leave the Game</a>
       </div>
     </div>
     <div class='row'>

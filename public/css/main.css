@@ -20,6 +20,14 @@ h1 {
   display: inline;
 }
 
+.player.thatsYou {
+  border: 3px solid yellow;
+}
+
+.leave-game {
+  display: none;
+}
+
 .game-area {
   height: 100%;
   width: 100%;

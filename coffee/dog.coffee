@@ -16,17 +16,16 @@ class Dog
     @constructor.name
 
   perspectivalHand: (aHand) ->
-    console.log "aHand", aHand
-    console.log "hand", @hand
     @read aHand or @hand
 
   read: (cards) ->
     @valueFor card for card in cards
 
   valueFor: (card) ->
-    unless card instanceof Card
-      throw "Hot holy cold mold, can't read this #{card.constructor.name} isn't a card.\n #{card}"
-    card
+    if card instanceof Card
+      card
+    else
+      throw "Hot holy cold mold, #{card.constructor.name} isn't a card.\n #{card}"
 
   setHand: (cards) ->
     console.log "Setting hand", cards
