@@ -2,6 +2,7 @@
 *.rbc
 .bundle
 .config
+config/secrets.json
 coverage
 InstalledFiles
 lib/bundler/man
