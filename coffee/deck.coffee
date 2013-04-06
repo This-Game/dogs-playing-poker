@@ -1,12 +1,9 @@
 {Card} = require 'coffee/card.coffee'
+{Util} = require 'coffee/util.coffee'
 
 class Deck
   constructor: ->
-    @cards = []
-    for rank in [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
-      for suit in ['Spades', 'Hearts', 'Diamonds', 'Clubs']
-        @cards.push(new Card rank, suit)
-    @shuffle()
+    throw "Make your own damn card deck!"
 
   # the Fisher-Yates shuffle
   shuffle: ->
@@ -23,4 +20,15 @@ class Deck
   take: (number) ->
     @cards.slice 0, number
 
-exports.Deck = Deck
+  push: (cards) ->
+    @cards.push cards
+
+class PokerDeck extends Deck
+  constructor: ->
+    @cards = []
+    for rank in [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
+      for suit in ['Spades', 'Hearts', 'Diamonds', 'Clubs']
+        @cards.push(new Card rank, suit)
+    @shuffle()
+
+exports.Deck = PokerDeck

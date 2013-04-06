@@ -1,5 +1,12 @@
+{Util} = require 'coffee/util.coffee'
+
 class Card
-  constructor: (@rank, @suit) ->
+  constructor: (@rank, @suit, @id) ->
+    @id = Util.encrypt "#{@rank},#{suit}" unless @id
+
+  @reconstitute: (cardId) ->
+    [rank, suit] = Util.decrypt(cardId).split(',')
+    new Card rank, suit, cardId
 
   value: ->
     switch @rank
@@ -19,7 +26,7 @@ class Card
     if @suit in ["Diamonds", "Hearts"] then "Red" else "Black"
 
   toString: ->
-    "#{@rankName()} of #{@suit}"
+    "<CARD: #{@rankName()} of #{@suit}>"
 
   rankName: ->
     switch @rank
@@ -42,23 +49,25 @@ class Card
     @suit.toLowerCase()
 
   randomSuitSymbol: ->
-    symbols =[
-      "&#10021;",
-      "&#10083;",
-      "&#10087;",
-      "&#9877;",
-      "&#41402;",
-      "&#3572;",
-      "&#9876;",
-      "&#164;",
-      "&#9800;",
-      "&#9733;",
-      "&#10047;",
-      "&#10056;",
-      "&#9096;",
-      "&#9798;"
-    ]
-    symbols[Math.floor(Math.random() * symbols.length)]
+    "❈"
+
+# symbols =[
+#   "&#10021;",
+#   "&#10083;",
+#   "&#10087;",
+#   "&#9877;",
+#   "&#41402;",
+#   "&#3572;",
+#   "&#9876;",
+#   "&#164;",
+#   "&#9800;",
+#   "&#9733;",
+#   "&#10047;",
+#   "&#10056;",
+#   "&#9096;",
+#   "&#9798;"
+# ]
+# symbols[Math.floor(Math.random() * symbols.length)]
 
 # king and queen:
 # &#9819;

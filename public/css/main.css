@@ -67,6 +67,20 @@ h1 {
     transition: bottom .15s;
 }
 
+.card-holder {
+    display: inline-block;
+    width: 5.3em;
+}
+
+.card-holder .btn {
+    display:none;
+
+}
+
+.card-holder:hover .btn {
+    display:block;
+}
+
 .card-table .card.red { color: #f00 }
 .card-table .card.diamonds { color: #000 }
 

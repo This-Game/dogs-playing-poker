@@ -2,8 +2,10 @@ http = require 'http'
 _ = require 'underscore'
 io = require "socket.io"
 express = require "express"
+
 {MustacheViews} = require 'views.coffee'
 {Game} = require 'game.coffee'
+{Deck} = require 'coffee/deck.coffee'
 
 app = express()
 server = http.createServer(app)
@@ -25,20 +27,32 @@ gameChannel.on "connection", (socket) ->
   console.log "Connecting to #{socket}"
   socket.emit "updatedPlayersList", Game.players
 
-  socket.on "rejoining", (playerName) ->
-    if player = Game.players[playerName]
-      socket.emit "updatedHand", MustacheViews.hand.render(player.perspectivalHand)
+  socket.on "playerRejoined", (playerId) ->
+    if player = Game.possiblyFindPlayer(playerId)
+      console.log "BAY BAY BAY", player.perspectivalHand()
+      gameChannel.emit "updatedPlayersList", Game.players
+      socket.emit "playerJoined", player.id
+      socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
 
   socket.on "addPlayer", (playerData) ->
-    console.log "Adding Player #{playerData}, now we have", Game.players
     player = Game.addPlayer(playerData)
+    console.log "JAY JAY JAY", player.hand
     gameChannel.emit "updatedPlayersList", Game.players
-    socket.emit "playerJoined", player.name
-    socket.emit "updatedHand", MustacheViews.hand.render(player.perspectivalHand)
+    gameChannel.emit "updatedDeck", deckSize: Game.deck.size()
+    socket.emit "playerJoined", player.id
+    socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
 
-  socket.on "leave-game", (playerName) ->
-    console.log "Removing Player #{playerName}, now we have", Game.players
-    delete Game.players[playerName]
+  socket.on "exchangeCards", (playerId, cardIds) ->
+    player = Game.findPlayer(playerId)
+    console.log "#!!!!! #{playerId} wants to exchange cards", player.hand
+    Game.exchange player, cardIds
+    console.log "#!!!!! #{playerId} exchange is complete. #{cardIds}", player.hand
+
+    gameChannel.emit "updatedDeck", deckSize: Game.deck.size(), playerId: player.id
+    socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
+
+  socket.on "leaveGame", (playerId) ->
+    Game.removePlayer(playerId)
     gameChannel.emit "updatedPlayersList", Game.players
     socket.emit "playerLeft", playerName
 

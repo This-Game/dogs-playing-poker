@@ -1,8 +1,12 @@
 <div class="hand">
   {{#cards}}
-  <span class="card {{suitClass}}">
-    <span class="rank">{{rankName}}</span>
-    <span class="suit">{{{suitSymbol}}}</span>
-  </span>
+  <div id="{{id}}" class="card-holder">
+    <button class='btn btn-small trade'>Trade</button>
+    <button class='btn btn-small show' >Show</button>
+    <span class="card {{suitClass}}">
+      <span class="rank">{{rankName}}</span>
+      <span class="suit">{{{suitSymbol}}}</span>
+    </span><br/>
+  </div>
   {{/cards}}
 </div>
