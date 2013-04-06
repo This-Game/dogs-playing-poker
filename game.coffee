@@ -33,17 +33,13 @@ Game =
   exchange: (player, cardsIdsToExchange) ->
     decryptedCards = (Card.reconstitute(id) for id in cardsIdsToExchange)
     console.log "Returning cards: #{decryptedCards}"
-
     # Remove return cards from the player's hand
     newHand = _.reject player.hand, (card) -> card.id in cardsIdsToExchange
-
     console.log "HAND with card removed", newHand
-
     # Push returned cards onto the bottom of the deck.
     @deck.push card for card in decryptedCards
     # Deal new cards to the player
-    dealtCards = @deck.take(decryptedCards.length)
-
+    dealtCards = @deck.take(cardsIdsToExchange.length)
     console.log "HAND with new cards", newHand.concat(dealtCards)
     player.setHand newHand.concat(dealtCards)
 

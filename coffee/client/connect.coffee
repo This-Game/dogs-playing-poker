@@ -1,5 +1,9 @@
 $ ->
   socket = io.connect("http://localhost:2222/game.prototype")
+  if $.cookie 'current-player'
+    console.log "Jankypants"
+    socket.emit("playerRejoined", $.cookie('current-player'))
+
   socket.on "connect", ->
     if $.cookie 'current-player'
       socket.emit "playerRejoined", $.cookie('current-player')
@@ -15,15 +19,16 @@ $ ->
         playerList.append $("<li cdata-player-id='#{id}'>#{player.name} is a #{player.kindOfDog}</li>")
 
     socket.on "playerJoined", (playerId) ->
-      console.log "playerJoined", playerId
-      $.cookie('current-player', playerId)
-      $('.add-player').hide();
+      if playerId
+        $.cookie('current-player', playerId) if playerId
+        $('.leave-game').show()
+        $('.add-player').hide()
 
     socket.on "playerLeft", (playerId) ->
       if $.cookie "current-player" is playerId
         $.cookie("current-player", null)
-        $('.add-player').show();
-        $('.card-table').empty();
+        $('.add-player').show()
+        $('.card-table').empty()
 
   $('.add-player .submit').click (event) ->
     player = {}
@@ -37,6 +42,8 @@ $ ->
     if $.cookie("current-player")
       socket.emit "leaveGame", $.cookie("current-player")
       $.removeCookie("current-player")
+      $('.add-player').show()
+      $('.card-table').empty()
 
   $('.card-table').on "click", ".btn.trade", (event) ->
     cardId = @parentElement.id

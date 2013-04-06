@@ -18,10 +18,10 @@ class Deck
     @cards.length
 
   take: (number) ->
-    @cards.slice 0, number
+    @cards.splice 0, number
 
   push: (cards) ->
-    @cards.push cards
+    @cards = @cards.concat(cards)
 
 class PokerDeck extends Deck
   constructor: ->

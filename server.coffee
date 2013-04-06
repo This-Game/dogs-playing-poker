@@ -28,15 +28,16 @@ gameChannel.on "connection", (socket) ->
   socket.emit "updatedPlayersList", Game.players
 
   socket.on "playerRejoined", (playerId) ->
+    console.log "BAY BAY BAY", playerId, Game.possiblyFindPlayer(playerId)
     if player = Game.possiblyFindPlayer(playerId)
-      console.log "BAY BAY BAY", player.perspectivalHand()
       gameChannel.emit "updatedPlayersList", Game.players
       socket.emit "playerJoined", player.id
       socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
+    else
+      socket.emit "playerLeft", playerId
 
   socket.on "addPlayer", (playerData) ->
     player = Game.addPlayer(playerData)
-    console.log "JAY JAY JAY", player.hand
     gameChannel.emit "updatedPlayersList", Game.players
     gameChannel.emit "updatedDeck", deckSize: Game.deck.size()
     socket.emit "playerJoined", player.id
