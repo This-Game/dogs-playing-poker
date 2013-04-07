@@ -1,5 +1,5 @@
-{Card} = require 'coffee/card.coffee'
-{Util} = require 'coffee/util.coffee'
+{Card} = require 'app/card.coffee'
+{Util} = require 'app/util.coffee'
 
 class Dog
   constructor: (playerData, cards) ->

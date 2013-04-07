@@ -1,7 +1,7 @@
-{Card} = require 'coffee/card.coffee'
-{Deck} = require 'coffee/deck.coffee'
-{Dog} =  require 'coffee/dog.coffee'
-{Util} =  require 'coffee/util.coffee'
+{Card} = require 'app/card.coffee'
+{Deck} = require 'app/deck.coffee'
+{Dog} =  require 'app/dog.coffee'
+{Util} =  require 'app/util.coffee'
 _ = require "underscore"
 
 Game =

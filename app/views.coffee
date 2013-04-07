@@ -2,7 +2,7 @@ Hogan = require 'hogan.js'
 fs = require 'fs'
 
 readTemplateFile = (templateName) ->
-  fs.readFileSync(__dirname + "/views/#{templateName}.mustache",  'utf8')
+  fs.readFileSync(__dirname + "/../views/#{templateName}.mustache",  'utf8')
 
 exports.Views =
   hand:

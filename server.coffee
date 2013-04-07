@@ -3,9 +3,9 @@ _ = require 'underscore'
 io = require "socket.io"
 express = require "express"
 
-{Views} = require 'views.coffee'
-{Game} = require 'game.coffee'
-{Deck} = require 'coffee/deck.coffee'
+{Game} = require 'app/game.coffee'
+{Deck} = require 'app/deck.coffee'
+{Views} = require 'app/views.coffee'
 
 app = express()
 server = http.createServer(app)

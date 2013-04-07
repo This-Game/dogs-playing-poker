@@ -1,6 +1,6 @@
 interactor :off
 
-guard 'coffeescript', :input => 'coffee', :output => 'public/js', :hide_success => true
+guard 'coffeescript', :input => 'app/client', :output => 'public/js', :hide_success => true
 
 guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch('config/application.rb')

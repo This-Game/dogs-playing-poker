@@ -1,4 +1,4 @@
-{Util} = require 'coffee/util.coffee'
+{Util} = require 'main/util.coffee'
 
 s = Util.encrypt 'hey ho the live long day!'
 console.log s
