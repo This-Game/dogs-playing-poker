@@ -2,7 +2,6 @@ _ = require 'underscore'
 fs = require 'fs'
 crypto = require 'crypto'
 secrets = JSON.parse(fs.readFileSync(__dirname + '/../config/secrets.json', 'utf8'))
-# decipher.setAutoPadding true
 
 Util =
   makeGUID: ->

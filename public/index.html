@@ -1,39 +1,53 @@
 <html>
 <head>
-  <title></title>
+  <title>Dogs Playing Poker — The Game</title>
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link href='http://fonts.googleapis.com/css?family=Allura|Nova+Square' rel='stylesheet' type='text/css'>
   <link href="css/main.css" rel="stylesheet">
 
   <script src="http://localhost:2222/socket.io/socket.io.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="js/client/jquery.cookie.js"></script>
   <script src="js/client/connect.js"></script>
-  <link href='http://fonts.googleapis.com/css?family=Allura|Nova+Square' rel='stylesheet' type='text/css'>
 </head>
 <body>
   <div class="container">
     <div class="row top-bar">
-      <div class="span9 title">
-        <h1>Dogs Playing Poker: The Game</h1>
+      <div class="title span6">
+        <h1>Dogs Playing Poker</h1>
         <form class="add-player" autocomplete="off">
           <span>
             <label for='name'>Your Name</label>
             <input type="text" name="name" value="Hank McJank">
           </span>
           <span>
-            <label for='kindOfDog'>What kind of dog are you?</label><br>
-            <input type="radio" name="kindOfDog" value="Human" checked="1">Human<br>
-            <input type="radio" name="kindOfDog" value="Pug">Pug<br>
-            <input type="radio" name="kindOfDog" value="Collie">Collie<br>
-            <input type="radio" name="kindOfDog" value="Greyhound">Greyhound<br>
-            <input type="radio" name="kindOfDog" value="Corgi">Corgi<br>
+            <label class="radio">
+              <input type="radio" name="kindOfDog" value="Pug" checked>Pug
+            </label>
+            <label class="radio">
+              <input type="radio" name="kindOfDog" value="Collie" checked>Collie
+            </label>
+            <label class="radio">
+              <input type="radio" name="kindOfDog" value="Greyhound" checked>Greyhound
+            </label>
+            <label class="radio">
+              <input type="radio" name="kindOfDog" value="Corgi" checked>Corgi
+            </label>
+            <label class="radio">
+              <input type="radio" name="kindOfDog" value="Human" checked>Human
+            </label>
           </span>
           <a class='submit btn'>Join the Game</a>
         </form>
-      </div>
-      <div class="players span3">
-        <ul class="current-players"></ul>
         <a class='leave-game btn'>Leave the Game</a>
+      </div>
+      <div class="players span2 offset3">
+        <div class="current-players">
+        </div>
+        <div class='controls hidden'>
+          <button class='btn show'>Show Cards</button>
+          <button class='btn exchange'>Exchange Cards</button>
+        </div>
       </div>
     </div>
     <div class='row'>

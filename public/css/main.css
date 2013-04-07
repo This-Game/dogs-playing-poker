@@ -3,17 +3,20 @@
   height: 100%;
 }
 
-h1 {
+h1, button {
   font-family: 'Nova Square', cursive;
 }
 
 .title {
+  padding : 8px 0 0 12px;
   background: white;
   opacity: 0.7;
+  min-height: 92px;
 }
 
 .title * {
   color: #000000;
+  opacity: 1.0;
 }
 
 .title span, .top-bar li, .top-bar input {
@@ -28,11 +31,28 @@ li.player.thatsYou .portrait {
   background: url('/img/poker-felt.jpg') repeat;
 }
 
+.hidden {
+  display: none;
+}
+
+.players button {
+  font-size: 14px;
+  line-height: 1.1em;
+  width: 150px;
+  height: 50px;
+  margin-bottom: 15px;
+  margin-left: 10px;
+}
+
 li.player .caption {
   margin-top: 4px;
   width: 100px;
   padding: 2px 0 3px;
-  border-radius: 5px;
+  /*border-radius: 15px 5px;*/
+  border-top-left-radius: 20px 10px;
+  border-top-right-radius: 20px 10px;
+  border-bottom-left-radius: 20px 10px;
+  border-bottom-right-radius: 20px 10px;
   font-family: 'Allura', cursive;
   background: url('/img/bronze-texture.jpg') repeat;  color: #333;
   /*background-color: #666;*/
@@ -89,10 +109,6 @@ li.player.Collie .portrait {
   top: 288px;
 }
 
-.card-table button {
-  display: none;
-}
-
 .card-table .card {
     display: inline-block;
     width: 3.3em;
@@ -122,6 +138,7 @@ li.player.Collie .portrait {
 }
 .card-table .card:hover {
   bottom: 1em;
+  /*content: "EXCHANGE?";*/
   -webkit-transition: bottom .15s;
   -moz-transition: bottom .15s;
   -ms-transition: bottom .15s;

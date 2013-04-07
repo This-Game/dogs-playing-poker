@@ -38,7 +38,7 @@ class Collie extends Dog
     rank = if card.isFaceCard()
       "Person"
     else
-      card.value
+      card.value()
     new Card rank, "blobs", card.id
 
 # Greyhounds can recognize Faces and Aces
@@ -52,13 +52,10 @@ class Greyhound extends Dog
     new Card rank, "blobs", card.id
 
 # Pugs can see COLOR
-# They can tell numbers and colors apart, but can't be more specific than that.
+# They can also tell numbers and people apart, but that's as specific as it gets.
 class Pug extends Dog
   valueFor: (card) ->
     super(card)
-    console.log card
-    console.log card.suit
-    console.log card.rankName
     rank = if card.isFaceCard() then "Person" else "Number"
     new Card rank, card.color(), card.id
 
@@ -68,7 +65,7 @@ class Corgi extends Dog
     super(card)
     new Card "?", card.suit, card.id
 
-# Humans are a highly advanced kind of dog
+# Humans are a highly advanced form of dogg
 class Human extends Dog
   valueFor: (card) ->
     super(card)
