@@ -17,7 +17,7 @@ $ ->
 
   $('.modal').modal show: false
 
-  socket = io.connect "http://localhost:2222/game.prototype"
+  socket = io.connect "/game.prototype"
   socket.emit "playerRejoined", currentPlayer() if currentPlayer()?
 # -------------- SOCKET.IO BINDINGS ---------------- #
 

@@ -1,7 +1,7 @@
 {
   "name": "dogs-playing-poker",
   "description": "exactly what it sounds like.",
-  "version": "0.0.1-5",
+  "version": "0.0.1-6",
   "private": true,
   "dependencies": {
     "coffee-script": "~1.6.2",

@@ -26,7 +26,7 @@
     $('.modal').modal({
       show: false
     });
-    socket = io.connect("http://localhost:2222/game.prototype");
+    socket = io.connect("/game.prototype");
     if (currentPlayer() != null) {
       socket.emit("playerRejoined", currentPlayer());
     }
