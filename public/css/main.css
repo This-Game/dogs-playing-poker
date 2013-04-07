@@ -28,6 +28,8 @@ li.player.thatsYou .portrait {
 }
 
 .players {
+  float: right;
+  margin-right: 20px;
   background: url('/img/poker-felt.jpg') repeat;
 }
 
@@ -73,6 +75,13 @@ li.player .portrait {
   background: yellow;
 }
 
+li.player.selected .portrait {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border: 3px solid yellow;
+}
+
 li.player.Corgi .portrait {
   background: url('/img/Corgi.jpg') no-repeat;
   background-size: 100px 100px;
@@ -105,8 +114,11 @@ li.player.Collie .portrait {
 
 .card-table {
   text-align: center;
-  position: relative;
-  top: 288px;
+  position: fixed;
+  top: 550px;
+  left: 577px;
+  /*position: relative;*/
+  /*top: 288px;*/
 }
 
 .card-table .card {

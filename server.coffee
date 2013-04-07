@@ -46,18 +46,18 @@ gameChannel.on "connection", (socket) ->
     socket.emit "playerJoined", player.id
     socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
 
-  socket.on "show", (playerId, cardIds) ->
-    player = Game.findPlayer(playerId)
-    console.log "#!!!!! #{playerId} wants to SHOW cards", player.hand
-    Game.exchange player, cardIds
-    console.log "#!!!!! #{playerId} exchange is complete. #{cardIds}", player.hand
+  socket.on "show", (showingPlayerId, cardIds, otherPlayerId) ->
+    console.log "??????? SHOWING", arguments
+    showingPlayer = Game.findPlayer(showingPlayerId)
+    otherPlayer = Game.findPlayer(otherPlayerId)
+    console.log "#!!!!! #{showingPlayer.name} wants to show cards to #{otherPlayer.name}"
+    revealedCards = showingPlayer.showCards(cardIds, otherPlayer)
+    console.log "#!!!!! #{revealedCards}"
+    socket.emit "cardsRevealed", MustacheViews.hand.render(cards: revealedCards)
 
   socket.on "exchange", (playerId, cardIds) ->
     player = Game.findPlayer(playerId)
-    console.log "#!!!!! #{playerId} wants to exchange cards", player.hand
     Game.exchange player, cardIds
-    console.log "#!!!!! #{playerId} exchange is complete. #{cardIds}", player.hand
-
     gameChannel.emit "updatedDeck", deckSize: Game.deck.size(), playerId: player.id
     socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
 

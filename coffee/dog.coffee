@@ -31,6 +31,12 @@ class Dog
     console.log "Setting hand", cards
     @hand = cards
 
+  showCards: (cardIds, otherPlayer) ->
+    cards = (Card.reconstitute id for id in cardIds)
+    cardsAsViewedByOther = otherPlayer.read cards
+    console.log "READ ME SOME CURRRRRDS"
+    cardsAsViewedByOther
+
 # Collies know numbers and letters, i.e. anything but face cards
 class Collie extends Dog
   valueFor: (card) ->

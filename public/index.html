@@ -11,6 +11,19 @@
   <script src="js/client/connect.js"></script>
 </head>
 <body>
+  <div class="modal hide fade">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3></h3>
+    </div>
+    <div class="modal-body">
+      <p></p>
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn">Close</a>
+      <a href="#" class="btn btn-primary">Save changes</a>
+    </div>
+  </div>
   <div class="container">
     <div class="row top-bar">
       <div class="title span6">
@@ -18,23 +31,23 @@
         <form class="add-player" autocomplete="off">
           <span>
             <label for='name'>Your Name</label>
-            <input type="text" name="name" value="Hank McJank">
+            <input type="text" name="name" value="Spot Q. Roverly">
           </span>
           <span>
             <label class="radio">
-              <input type="radio" name="kindOfDog" value="Pug" checked>Pug
+              <input type="radio" name="kindOfDog" value="Pug">Pug
             </label>
             <label class="radio">
               <input type="radio" name="kindOfDog" value="Collie" checked>Collie
             </label>
             <label class="radio">
-              <input type="radio" name="kindOfDog" value="Greyhound" checked>Greyhound
+              <input type="radio" name="kindOfDog" value="Greyhound">Greyhound
             </label>
             <label class="radio">
-              <input type="radio" name="kindOfDog" value="Corgi" checked>Corgi
+              <input type="radio" name="kindOfDog" value="Corgi">Corgi
             </label>
             <label class="radio">
-              <input type="radio" name="kindOfDog" value="Human" checked>Human
+              <input type="radio" name="kindOfDog" value="Human">Human
             </label>
           </span>
           <a class='submit btn'>Join the Game</a>
@@ -45,16 +58,14 @@
         <div class="current-players">
         </div>
         <div class='controls hidden'>
-          <button class='btn show'>Show Cards</button>
-          <button class='btn exchange'>Exchange Cards</button>
+          <button class='btn show' data-text="Show Cards">Show Cards</button>
+          <button class='btn exchange' data-text="Exchange Cards">Exchange Cards</button>
         </div>
       </div>
     </div>
     <div class='row'>
       <div class="span8 game-area">
         <div class='card-table'></div>
-      </div>
-      <div class="span4 sidebar">
       </div>
     </div>
   </div>
