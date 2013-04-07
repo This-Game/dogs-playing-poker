@@ -1,19 +1,15 @@
 *.gem
 *.rbc
+.ruby-version
 .bundle
 .config
 config/secrets.json
-coverage
-InstalledFiles
-lib/bundler/man
+node_modules
 pkg
 rdoc
 spec/reports
 test/tmp
 test/version_tmp
 tmp
-
-# YARD artifacts
-.yardoc
-_yardoc
-doc/
+.DS_Store
+public/.DS_Store

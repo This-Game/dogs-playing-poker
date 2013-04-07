@@ -1,6 +1,6 @@
 {
-  "name": "hello-world",
-  "description": "hello world test app",
+  "name": "dogs-playing-poker",
+  "description": "exactly what it sounds like.",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -9,5 +9,12 @@
     "underscore": "1.4.4",
     "socket.io": "0.9",
     "hogan.js": "2.0.0"
+  },
+  "subdomain": "dogs-playing-poker",
+  "scripts": {
+    "start": "coffee server.coffee"
+  },
+  "engines": {
+    "node": "0.8.x"
   }
 }

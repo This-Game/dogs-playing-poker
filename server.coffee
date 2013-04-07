@@ -31,7 +31,6 @@ gameChannel.on "connection", (socket) ->
   socket.emit "updatedPlayersList", renderPlayerList()
 
   socket.on "playerRejoined", (playerId) ->
-    console.log "BAY BAY BAY", playerId, Game.possiblyFindPlayer(playerId)
     if player = Game.possiblyFindPlayer(playerId)
       gameChannel.emit "updatedPlayersList", renderPlayerList()
       socket.emit "playerJoined", player.id
@@ -47,10 +46,9 @@ gameChannel.on "connection", (socket) ->
     socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
 
   socket.on "show", (showingPlayerId, cardIds, otherPlayerId) ->
-    console.log "()()()()()()()()()()((()("
     [showingPlayer, otherPlayer] = Game.findPlayers(showingPlayerId, otherPlayerId)
-    view = MustacheViews.revealedCards.render(showingPlayer.showCards(cardIds, otherPlayer))
-    socket.emit "cardsRevealed", view
+    cardData = showingPlayer.showCards(cardIds, otherPlayer)
+    socket.emit "cardsRevealed", MustacheViews.revealedCards.render(cardData)
 
   socket.on "exchange", (playerId, cardIds) ->
     player = Game.findPlayer(playerId)

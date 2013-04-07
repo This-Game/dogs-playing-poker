@@ -1,55 +1,66 @@
 (function() {
-  $.fn.serializeObject = function() {
-    var a, o;
-
-    o = {};
-    a = this.serializeArray();
-    return $.each(a, function() {
-      if (o[this.name] !== undefined) {
-        if (!o[this.name].push) {
-          o[this.name] = [o[this.name]];
-        }
-        return o[this.name].push(this.value || "");
-      } else {
-        return o[this.name] = this.value || "";
-      }
-    });
-  };
-
   $(function() {
-    var socket;
+    var currentPlayer, resetControls, setCurrentPlayer, socket;
 
+    currentPlayer = function() {
+      return $.cookie('current-player');
+    };
+    setCurrentPlayer = function(id) {
+      if (!id || id === 'null') {
+        throw "WTF";
+      }
+      return $.cookie('current-player', id);
+    };
+    resetControls = function() {
+      console.log("resetting");
+      $('.card').removeClass('selected');
+      $('.player').removeClass('selected');
+      return $('.controls button').each(function(index, element) {
+        var $el;
+
+        $el = $(element);
+        $el.removeAttr('disabled');
+        return $el.text($el.data('text'));
+      });
+    };
+    $('.modal').modal({
+      show: false
+    });
     socket = io.connect("http://localhost:2222/game.prototype");
+    if (currentPlayer() != null) {
+      socket.emit("playerRejoined", currentPlayer());
+    }
     socket.on("connect", function() {
-      if ($.cookie('current-player')) {
-        socket.emit("rejoining", $.cookie('current-player'));
+      if (currentPlayer() != null) {
+        socket.emit("playerRejoined", currentPlayer());
       }
       socket.on("updatedHand", function(hand) {
         return $('.card-table').html(hand);
       });
-      socket.on("updatedPlayersList", function(players) {
-        var isCurrent, name, player, playerList, _results;
-
-        playerList = $('.current-players').empty();
-        _results = [];
-        for (name in players) {
-          player = players[name];
-          isCurrent = name === $.cookie('current-player');
-          _results.push(playerList.append($("<li cdata-player-name='" + name + "'>" + player.name + " is a " + player.kindOfDog + "</li>")));
-        }
-        return _results;
+      socket.on("updatedPlayersList", function(playerListHTML) {
+        return $('.current-players').html(playerListHTML);
       });
-      socket.on("playerJoined", function(playerName) {
-        if ($.cookie("current-player" === playerName)) {
-          return $('.add-player').hide();
-        }
+      socket.on("playerJoined", function(playerId) {
+        setCurrentPlayer(playerId);
+        $('.controls').removeClass('hidden');
+        $('.leave-game').show();
+        return $('.add-player').hide();
       });
-      return socket.on("playerLeft", function(playerName) {
-        if ($.cookie("current-player" === playerName)) {
-          $.cookie("current-player", null);
+      socket.on("playerLeft", function(playerId) {
+        if (currentPlayer() === playerId) {
+          $.removeCookie("current-player");
           $('.add-player').show();
           return $('.card-table').empty();
         }
+      });
+      return socket.on("cardsRevealed", function(html) {
+        var dialog;
+
+        console.log("JAIS JAIS JAIS", html);
+        dialog = $('.modal');
+        dialog.find('h3').text("Cards have been revealed!");
+        dialog.find('.modal-body p').html(html);
+        return dialog.modal("show");
       });
     });
     $('.add-player .submit').click(function(event) {
@@ -63,11 +74,54 @@
           player[field.name] = field.value;
         }
       }
-      $.cookie("current-player", player.name);
       return socket.emit("addPlayer", player);
     });
-    return $('.leave-game').click(function(event) {
-      return socket.emit("leave-game", $.cookie("current-player"));
+    $('.leave-game').click(function(event) {
+      if ($.cookie("current-player")) {
+        socket.emit("leaveGame", currentPlayer());
+        $.removeCookie("current-player");
+        $('.controls').addClass('hidden');
+        $('.add-player').show();
+        return $('.card-table').empty();
+      }
+    });
+    $('.card-table').on("click", '.card', function() {
+      return $(this).addClass('selected');
+    });
+    $('.players').on("click", '.player', function() {
+      return $(this).addClass('selected');
+    });
+    return $('.controls').on("click", "button", function() {
+      var button, originaltext;
+
+      button = $(this);
+      originaltext = button.text();
+      button.siblings().attr('disabled', 'disabled');
+      button.text('Submit');
+      return button.click(function() {
+        var card, cardIds, event, otherPlayerId;
+
+        button.off('click');
+        event = button.attr('class').split(' ')[1];
+        cardIds = (function() {
+          var _i, _len, _ref, _results;
+
+          _ref = $('.card-table .selected');
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            card = _ref[_i];
+            _results.push(card.id);
+          }
+          return _results;
+        })();
+        if (event === 'show') {
+          otherPlayerId = $('.players .player.selected')[0].id;
+          socket.emit(event, currentPlayer(), cardIds, otherPlayerId);
+        } else {
+          socket.emit(event, currentPlayer(), cardIds);
+        }
+        return resetControls();
+      });
     });
   });
 
