@@ -4,7 +4,7 @@ fs = require 'fs'
 readTemplateFile = (templateName) ->
   fs.readFileSync(__dirname + "/views/#{templateName}.mustache",  'utf8')
 
-exports.MustacheViews =
+exports.Views =
   hand:
     Hogan.compile(readTemplateFile 'hand')
 

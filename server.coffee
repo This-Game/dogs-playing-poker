@@ -3,7 +3,7 @@ _ = require 'underscore'
 io = require "socket.io"
 express = require "express"
 
-{MustacheViews} = require 'views.coffee'
+{Views} = require 'views.coffee'
 {Game} = require 'game.coffee'
 {Deck} = require 'coffee/deck.coffee'
 
@@ -24,7 +24,7 @@ server.listen 2222
 gameChannel = ioServer.of '/game.prototype'
 
 renderPlayerList = ->
-  MustacheViews.playerList.render players: _(Game.players).values()
+  Views.playerList.render players: _(Game.players).values()
 
 gameChannel.on "connection", (socket) ->
   console.log "Connecting."
@@ -34,7 +34,7 @@ gameChannel.on "connection", (socket) ->
     if player = Game.possiblyFindPlayer(playerId)
       gameChannel.emit "updatedPlayersList", renderPlayerList()
       socket.emit "playerJoined", player.id
-      socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
+      socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
     else
       socket.emit "playerLeft", playerId
 
@@ -43,18 +43,18 @@ gameChannel.on "connection", (socket) ->
     gameChannel.emit "updatedPlayersList", renderPlayerList()
     gameChannel.emit "updatedDeck", deckSize: Game.deck.size()
     socket.emit "playerJoined", player.id
-    socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
+    socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
 
   socket.on "show", (showingPlayerId, cardIds, otherPlayerId) ->
     [showingPlayer, otherPlayer] = Game.findPlayers(showingPlayerId, otherPlayerId)
     cardData = showingPlayer.showCards(cardIds, otherPlayer)
-    socket.emit "cardsRevealed", MustacheViews.revealedCards.render(cardData)
+    socket.emit "cardsRevealed", Views.revealedCards.render(cardData)
 
   socket.on "exchange", (playerId, cardIds) ->
     player = Game.findPlayer(playerId)
     Game.exchange player, cardIds
     gameChannel.emit "updatedDeck", deckSize: Game.deck.size(), playerId: player.id
-    socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
+    socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
 
   socket.on "leaveGame", (playerId) ->
     Game.removePlayer(playerId)
