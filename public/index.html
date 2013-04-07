@@ -25,36 +25,39 @@
     </div>
   </div>
   <div class="container">
-    <div class="row top-bar">
-      <div class="title span6">
-        <h1>Dogs Playing Poker</h1>
-        <form class="add-player" autocomplete="off">
-          <span>
-            <label for='name'>Your Name</label>
-            <input type="text" name="name" value="Spot Q. Roverly">
-          </span>
-          <span>
-            <label class="radio">
-              <input type="radio" name="kindOfDog" value="Pug">Pug
-            </label>
-            <label class="radio">
-              <input type="radio" name="kindOfDog" value="Collie" checked>Collie
-            </label>
-            <label class="radio">
-              <input type="radio" name="kindOfDog" value="Greyhound">Greyhound
-            </label>
-            <label class="radio">
-              <input type="radio" name="kindOfDog" value="Corgi">Corgi
-            </label>
-            <label class="radio">
-              <input type="radio" name="kindOfDog" value="Human">Human
-            </label>
-          </span>
-          <a class='submit btn'>Join the Game</a>
-        </form>
-        <a class='leave-game btn'>Leave the Game</a>
+    <div class="title">
+      <h1>Dogs Playing Poker</h1>
+      <form class="add-player" autocomplete="off">
+        <span>
+          <label for='name'>Your Name</label>
+          <input type="text" name="name" value="Spot Q. Roverly">
+        </span>
+        <span>
+          <label class="radio">
+            <input type="radio" name="kindOfDog" value="Pug">Pug
+          </label>
+          <label class="radio">
+            <input type="radio" name="kindOfDog" value="Collie" checked>Collie
+          </label>
+          <label class="radio">
+            <input type="radio" name="kindOfDog" value="Greyhound">Greyhound
+          </label>
+          <label class="radio">
+            <input type="radio" name="kindOfDog" value="Corgi">Corgi
+          </label>
+          <label class="radio">
+            <input type="radio" name="kindOfDog" value="Human">Human
+          </label>
+        </span>
+        <a class='submit btn'>Join the Game</a>
+      </form>
+      <a class='leave-game btn'>Leave the Game</a>
+    </div>
+    <div class="row">
+      <div class="game-area span9">
+        <div id="your-cards" class='card-table'></div>
       </div>
-      <div class="players span2 offset3">
+      <div class="players span2">
         <div class="current-players">
         </div>
         <div class='controls hidden'>
@@ -64,9 +67,6 @@
       </div>
     </div>
     <div class='row'>
-      <div class="span8 game-area">
-        <div id="your-cards" class='card-table'></div>
-      </div>
     </div>
   </div>
 </body>

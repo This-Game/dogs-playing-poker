@@ -1,4 +1,6 @@
 $ ->
+  $('.modal').modal show: false
+
   currentPlayer = ->
     $.cookie('current-player')
 
@@ -15,7 +17,6 @@ $ ->
       $el.removeAttr 'disabled'
       $el.text $el.data('text')
 
-  $('.modal').modal show: false
 
   socket = io.connect "/game.prototype"
   socket.emit "playerRejoined", currentPlayer() if currentPlayer()?

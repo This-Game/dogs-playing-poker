@@ -2,6 +2,9 @@
   $(function() {
     var currentPlayer, resetControls, setCurrentPlayer, socket;
 
+    $('.modal').modal({
+      show: false
+    });
     currentPlayer = function() {
       return $.cookie('current-player');
     };
@@ -23,9 +26,6 @@
         return $el.text($el.data('text'));
       });
     };
-    $('.modal').modal({
-      show: false
-    });
     socket = io.connect("/game.prototype");
     if (currentPlayer() != null) {
       socket.emit("playerRejoined", currentPlayer());
