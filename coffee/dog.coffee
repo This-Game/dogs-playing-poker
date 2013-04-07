@@ -33,9 +33,10 @@ class Dog
 
   showCards: (cardIds, otherPlayer) ->
     cards = (Card.reconstitute id for id in cardIds)
-    cardsAsViewedByOther = otherPlayer.read cards
-    console.log "READ ME SOME CURRRRRDS"
-    cardsAsViewedByOther
+    asYouSeeIt:
+      cards: this.read(cards)
+    asTheySeeIt:
+      cards: otherPlayer.read(cards)
 
 # Collies know numbers and letters, i.e. anything but face cards
 class Collie extends Dog

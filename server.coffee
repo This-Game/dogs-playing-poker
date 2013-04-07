@@ -27,7 +27,7 @@ renderPlayerList = ->
   MustacheViews.playerList.render players: _(Game.players).values()
 
 gameChannel.on "connection", (socket) ->
-  console.log "Connecting to #{socket}"
+  console.log "Connecting."
   socket.emit "updatedPlayersList", renderPlayerList()
 
   socket.on "playerRejoined", (playerId) ->
@@ -47,13 +47,10 @@ gameChannel.on "connection", (socket) ->
     socket.emit "updatedHand", MustacheViews.hand.render(cards: player.perspectivalHand())
 
   socket.on "show", (showingPlayerId, cardIds, otherPlayerId) ->
-    console.log "??????? SHOWING", arguments
-    showingPlayer = Game.findPlayer(showingPlayerId)
-    otherPlayer = Game.findPlayer(otherPlayerId)
-    console.log "#!!!!! #{showingPlayer.name} wants to show cards to #{otherPlayer.name}"
-    revealedCards = showingPlayer.showCards(cardIds, otherPlayer)
-    console.log "#!!!!! #{revealedCards}"
-    socket.emit "cardsRevealed", MustacheViews.hand.render(cards: revealedCards)
+    console.log "()()()()()()()()()()((()("
+    [showingPlayer, otherPlayer] = Game.findPlayers(showingPlayerId, otherPlayerId)
+    view = MustacheViews.revealedCards.render(showingPlayer.showCards(cardIds, otherPlayer))
+    socket.emit "cardsRevealed", view
 
   socket.on "exchange", (playerId, cardIds) ->
     player = Game.findPlayer(playerId)

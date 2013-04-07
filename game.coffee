@@ -22,6 +22,9 @@ Game =
     throw "No player found with id '#{id}'" unless player
     player
 
+  findPlayers: (playerIds...) ->
+    (@findPlayer id for id in playerIds)
+
   possiblyFindPlayer: (id) ->
     @players[id]
 

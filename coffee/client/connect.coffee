@@ -7,6 +7,7 @@ $ ->
     $.cookie('current-player', id)
 
   resetControls = ->
+    console.log("resetting")
     $('.card').removeClass 'selected'
     $('.player').removeClass 'selected'
     $('.controls button').each (index, element) ->
@@ -80,9 +81,9 @@ $ ->
       button.off 'click'
       event = button.attr('class').split(' ')[1]
       cardIds = (card.id for card in $('.card-table .selected'))
-      otherPlayerId = if event is 'exchange'
-        $('.players .player.selected')[0].id
+      if event is 'show'
+        otherPlayerId = $('.players .player.selected')[0].id
+        socket.emit event, currentPlayer(), cardIds, otherPlayerId
       else
-        null
-      socket.emit event, currentPlayer(), cardIds, otherPlayerId
+        socket.emit event, currentPlayer(), cardIds
       resetControls()

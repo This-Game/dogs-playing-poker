@@ -112,13 +112,10 @@ li.player.Collie .portrait {
   width: 100%;
 }
 
-.card-table {
+#your-cards {
   text-align: center;
-  position: fixed;
-  top: 550px;
-  left: 577px;
-  /*position: relative;*/
-  /*top: 288px;*/
+  position: relative;
+  top: 328px;
 }
 
 .card-table .card {

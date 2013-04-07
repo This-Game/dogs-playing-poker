@@ -1,12 +1,13 @@
 <html>
 <head>
   <title>Dogs Playing Poker — The Game</title>
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Allura|Nova+Square' rel='stylesheet' type='text/css'>
   <link href="css/main.css" rel="stylesheet">
 
   <script src="http://localhost:2222/socket.io/socket.io.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <script src="js/client/jquery.cookie.js"></script>
   <script src="js/client/connect.js"></script>
 </head>
@@ -20,8 +21,7 @@
       <p></p>
     </div>
     <div class="modal-footer">
-      <a href="#" class="btn">Close</a>
-      <a href="#" class="btn btn-primary">Save changes</a>
+      <a href="#" data-dismiss="modal" class="btn btn-primary">OK</a>
     </div>
   </div>
   <div class="container">
@@ -65,7 +65,7 @@
     </div>
     <div class='row'>
       <div class="span8 game-area">
-        <div class='card-table'></div>
+        <div id="your-cards" class='card-table'></div>
       </div>
     </div>
   </div>
