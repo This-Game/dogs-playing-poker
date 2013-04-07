@@ -1,7 +1,11 @@
 _ = require 'underscore'
 fs = require 'fs'
 crypto = require 'crypto'
-secrets = JSON.parse(fs.readFileSync(__dirname + '/../config/secrets.json', 'utf8'))
+
+salt = if (process.env.NODE_ENV == 'production')
+  process.env.deckSalt
+else
+  JSON.parse(fs.readFileSync(__dirname + '/../config/secrets.json', 'utf8')).deckSalt
 
 Util =
   makeGUID: ->
@@ -11,16 +15,14 @@ Util =
     });`
 
   encrypt: (string) ->
-    cipher = crypto.createCipher('aes-256-cbc', secrets.deckSalt)
-    # console.log("ENCRYPTING", string)
+    cipher = crypto.createCipher('aes-256-cbc', salt)
     crypted = cipher.update(string, 'utf8', 'base64')
     final = cipher.final('base64')
     crypted += final
-    # console.log "CRYPTED", crypted
     crypted
 
   decrypt: (string) ->
-    decipher = crypto.createDecipher('aes-256-cbc', secrets.deckSalt)
+    decipher = crypto.createDecipher('aes-256-cbc', salt)
     decrypted = decipher.update(string, 'base64', 'utf8')
     final = decipher.final('utf8')
     decrypted += final
