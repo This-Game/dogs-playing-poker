@@ -3,7 +3,7 @@ $ ->
     $.cookie('current-player')
 
   setCurrentPlayer = (id) ->
-    throw "WTF" if not id or id is 'null'
+    throw "Current Player must be an id" if not id or id is 'null'
     $.cookie('current-player', id)
 
   resetControls = ->

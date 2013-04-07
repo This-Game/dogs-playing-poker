@@ -7,7 +7,7 @@
     };
     setCurrentPlayer = function(id) {
       if (!id || id === 'null') {
-        throw "WTF";
+        throw "Current Player must be an id";
       }
       return $.cookie('current-player', id);
     };

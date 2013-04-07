@@ -1,11 +1,10 @@
 http = require 'http'
 _ = require 'underscore'
-io = require "socket.io"
-express = require "express"
+io = require 'socket.io'
+express = require 'express'
 
-{Game} = require 'app/game.coffee'
-{Deck} = require 'app/deck.coffee'
-{Views} = require 'app/views.coffee'
+{Game}  = require './app/game.coffee'
+{Views} = require './app/views.coffee'
 
 app = express()
 server = http.createServer(app)

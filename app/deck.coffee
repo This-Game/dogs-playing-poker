@@ -1,5 +1,5 @@
-{Card} = require 'app/card.coffee'
-{Util} = require 'app/util.coffee'
+{Card} = require './card.coffee'
+{Util} = require './util.coffee'
 
 class Deck
   constructor: ->

@@ -1,4 +1,4 @@
-{Util} = require 'app/util.coffee'
+{Util} = require './util.coffee'
 
 class Card
   constructor: (@rank, @suit, @id) ->
