@@ -13,3 +13,11 @@ exports.Views =
 
   revealedCards:
     Hogan.compile(readTemplateFile 'revealed-cards')
+
+  dealer:
+    Hogan.compile(readTemplateFile 'dealer',
+      hand: @hand,
+      playerList: @playerList
+    )
+
+Hogan.partials

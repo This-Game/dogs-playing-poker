@@ -9,6 +9,7 @@ h1, button {
 
 .title {
   float: left;
+  z-index: 5;
   padding : 8px 20px 9px 12px;
   background: white;
   opacity: 0.7;
@@ -121,44 +122,68 @@ li.player.Collie .portrait {
   left: 175px;
 }
 
-.card-table .card {
-    display: inline-block;
-    width: 3.3em;
-    height: 4.6em;
-    border: 1px solid #666;
-    border-radius: .3em;
-    -webkit-border-radius: 0.3em;
-    -moz-border-radius: 0.3em;
-    border-radius: 0.3em;
-    padding: .25em;
-    margin: 0 .5em .5em 0;
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: normal;
-    font-family: Arial,sans-serif;
-    position: relative;
-    bottom: 0;
-    -webkit-transition: bottom .15s;
-    -moz-transition: bottom .15s;
-    -ms-transition: bottom .15s;
-    -o-transition: bottom .15s;
-    transition: bottom .15s;
-    background-color: #fff;
-    -webkit-box-shadow: .2em .2em .5em #333;
-    -moz-box-shadow: .2em .2em .5em #333;
-    box-shadow: .2em .2em .5em #333;
+@-webkit-keyframes flipUp {
+  from { -webkit-transform: rotateX(57deg) scale(1, 1); }
+  to { -webkit-transform: rotateX(0deg) scale(1.18, 1.18); }
 }
-.card-table .card:hover {
-  bottom: 1em;
-  /*content: "EXCHANGE?";*/
+
+#community-cards {
+  padding: 25px;
+  text-align: center;
+  position: relative;
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  border-radius: 0.3em;
+  top: 526px;
+  left: 227px;
+  -webkit-perspective: 229;
+}
+
+#community-cards .card {
+  -webkit-transform: rotateX(57deg);
+  -webkit-animation-duration: 0.15s;
+  -webkit-animation-iteration-count: 1;
+  -webkit-transform: translateX(0deg);
+  -webkit-animation-fill-mode: forwards;
+}
+
+#community-cards .card:hover {
+  -webkit-animation-name: flipUp;
+}
+
+.card-table .card {
+  background-color: #fff;
+  display: inline-block;
+  width: 3.3em;
+  height: 4.6em;
+  border: 1px solid #666;
+  padding: .25em;
+  margin: 0 .5em .5em 0;
+  text-align: center;
+  font-size: 1.2em;
+  font-weight: normal;
+  font-family: Arial,sans-serif;
+  position: relative;
+  bottom: 0;
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  border-radius: 0.3em;
   -webkit-transition: bottom .15s;
   -moz-transition: bottom .15s;
   -ms-transition: bottom .15s;
   -o-transition: bottom .15s;
   transition: bottom .15s;
+  -webkit-box-shadow: .2em .2em .5em #333;
+  -moz-box-shadow: .2em .2em .5em #333;
+  box-shadow: .2em .2em .5em #333;
 }
 
 .card-table .card.selected {
+  -webkit-transition: bottom .15s;
+  -moz-transition: bottom .15s;
+  -ms-transition: bottom .15s;
+  -o-transition: bottom .15s;
+  transition: bottom .15s;
   bottom: 1em;
 }
 

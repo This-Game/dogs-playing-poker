@@ -21,44 +21,59 @@ ioServer = io.listen(server)
 server.listen 2222
 
 gameChannel = ioServer.of '/game.prototype'
+game = new Game
 
 renderPlayerList = ->
-  Views.playerList.render players: _(Game.players).values()
+  Views.playerList.render players: _(game.players).values()
+
+renderCommunityCards = ->
+  Views.hand.render cards: game.communityCards
 
 gameChannel.on "connection", (socket) ->
   console.log "Connecting."
   socket.emit "updatedPlayersList", renderPlayerList()
 
   socket.on "playerRejoined", (playerId) ->
-    if player = Game.possiblyFindPlayer(playerId)
+    if player = game.possiblyFindPlayer(playerId)
       gameChannel.emit "updatedPlayersList", renderPlayerList()
+      gameChannel.emit "updatedCommunityCards", renderCommunityCards()
       socket.emit "playerJoined", player.id
       socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
     else
       socket.emit "playerLeft", playerId
 
   socket.on "addPlayer", (playerData) ->
-    player = Game.addPlayer(playerData)
+    player = game.addPlayer(playerData)
     gameChannel.emit "updatedPlayersList", renderPlayerList()
-    gameChannel.emit "updatedDeck", deckSize: Game.deck.size()
+    gameChannel.emit "updatedCommunityCards", renderCommunityCards()
+    gameChannel.emit "updatedDeck", deckSize: game.deck.size()
     socket.emit "playerJoined", player.id
     socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
 
   socket.on "show", (showingPlayerId, cardIds, otherPlayerId) ->
-    [showingPlayer, otherPlayer] = Game.findPlayers(showingPlayerId, otherPlayerId)
+    [showingPlayer, otherPlayer] = game.findPlayers(showingPlayerId, otherPlayerId)
     cardData = showingPlayer.showCards(cardIds, otherPlayer)
     socket.emit "cardsRevealed", Views.revealedCards.render(cardData)
 
   socket.on "exchange", (playerId, cardIds) ->
-    player = Game.findPlayer(playerId)
-    Game.exchange player, cardIds
-    gameChannel.emit "updatedDeck", deckSize: Game.deck.size(), playerId: player.id
+    player = game.findPlayer(playerId)
+    game.exchange player, cardIds
+    gameChannel.emit "updatedDeck", deckSize: game.deck.size(), playerId: player.id
     socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
 
   socket.on "leaveGame", (playerId) ->
-    Game.removePlayer(playerId)
+    game.removePlayer(playerId)
     gameChannel.emit "updatedPlayersList", renderPlayerList()
     socket.emit "playerLeft", playerName
 
 app.get '/', (req, res) ->
   res.sendfile(__dirname + '/index.html')
+
+app.get '/dealer', (req, res) ->
+  res.send Views.dealer.render(
+    communityCards:
+      cards: game.communityCards
+    deckSize: game.deck.size()
+    playerList: game.players
+  )
+

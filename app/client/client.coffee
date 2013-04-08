@@ -9,14 +9,12 @@ $ ->
     $.cookie('current-player', id)
 
   resetControls = ->
-    console.log("resetting")
-    $('.card').removeClass 'selected'
+    $('#your-cards .card').removeClass 'selected'
     $('.player').removeClass 'selected'
     $('.controls button').each (index, element) ->
       $el = $(element)
       $el.removeAttr 'disabled'
       $el.text $el.data('text')
-
 
   socket = io.connect "/game.prototype"
   socket.emit "playerRejoined", currentPlayer() if currentPlayer()?
@@ -26,7 +24,10 @@ $ ->
     socket.emit "playerRejoined", currentPlayer() if currentPlayer()?
 
     socket.on "updatedHand", (hand) ->
-      $('.card-table').html(hand)
+      $('#your-cards').html(hand)
+
+    socket.on "updatedCommunityCards", (cards) ->
+      $('#community-cards').html(cards)
 
     socket.on "updatedPlayersList", (playerListHTML) ->
       $('.current-players').html(playerListHTML)
@@ -67,11 +68,8 @@ $ ->
       $('.add-player').show()
       $('.card-table').empty()
 
-  $('.card-table').on "click", '.card', ->
-    $(this).addClass 'selected'
-
-  $('.players').on "click", '.player', ->
-    $(this).addClass 'selected'
+  $('#your-cards').on "click", '.card', -> $(this).toggleClass 'selected'
+  $('.players').on "click", '.player', -> $(this).toggleClass 'selected'
 
   $('.controls').on "click", "button", ->
     button = $(this)

@@ -4,10 +4,12 @@ _ = require "underscore"
 {Dog}  = require './dog.coffee'
 {Util} = require './util.coffee'
 
-Game =
-  players: {}
+class Game
 
-  deck: new Deck
+  constructor: ->
+    @players = {}
+    @deck = new Deck
+    @communityCards = @deck.take 3
 
   addPlayer: (player) ->
     unless @possiblyFindPlayer(player.id)

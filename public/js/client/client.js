@@ -15,8 +15,7 @@
       return $.cookie('current-player', id);
     };
     resetControls = function() {
-      console.log("resetting");
-      $('.card').removeClass('selected');
+      $('#your-cards .card').removeClass('selected');
       $('.player').removeClass('selected');
       return $('.controls button').each(function(index, element) {
         var $el;
@@ -35,7 +34,10 @@
         socket.emit("playerRejoined", currentPlayer());
       }
       socket.on("updatedHand", function(hand) {
-        return $('.card-table').html(hand);
+        return $('#your-cards').html(hand);
+      });
+      socket.on("updatedCommunityCards", function(cards) {
+        return $('#community-cards').html(cards);
       });
       socket.on("updatedPlayersList", function(playerListHTML) {
         return $('.current-players').html(playerListHTML);
@@ -85,11 +87,11 @@
         return $('.card-table').empty();
       }
     });
-    $('.card-table').on("click", '.card', function() {
-      return $(this).addClass('selected');
+    $('#your-cards').on("click", '.card', function() {
+      return $(this).toggleClass('selected');
     });
     $('.players').on("click", '.player', function() {
-      return $(this).addClass('selected');
+      return $(this).toggleClass('selected');
     });
     return $('.controls').on("click", "button", function() {
       var button, originaltext;
