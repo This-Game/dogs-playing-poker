@@ -23,36 +23,33 @@
       <a href="#" data-dismiss="modal" class="btn btn-primary">OK</a>
     </div>
   </div>
-  <div class="container">
-    <div class="title">
-      <h1>Dogs Playing Poker</h1>
-    </div>
+  <div class="container dealer">
     <div class="row">
-      <div class="span9">
-        <p>deck size: {{deckSize}}</p>
-        <p>player size: {{playerCount}}</p>
-        <p>
-        {{#communityCards}}
-          {{>hand}}
-        {{/communityCards}}
-        </p>
-        {{>playerList}}
-
-        {{#playerList}}
+      <div class="title span2">
+        <h1>Dogs Playing Poker</h1>
+      </div>
+    </div>
+    <div class='row'>
+      <div class="span5 offset3 dealer-info">
+        <div class="current-players">
           {{>playerList}}
-        {{/playerList}}
+        </div>
+        <p>deck size: {{deckSize}}</p>
+
       </div>
       <div class="players span2">
-        <div class="current-players">
-          {{>player-list}}
-        </div>
-        <div class='controls hidden'>
-          <button class='btn show' data-text="Show Cards">Show Cards</button>
-          <button class='btn exchange' data-text="Exchange Cards">Exchange Cards</button>
+        <div class='controls'>
+          <button class='btn show' data-text="Show Cards">Deal Cards</button>
+          <button class='btn exchange' data-text="Exchange Cards">Kick out players</button>
         </div>
       </div>
     </div>
     <div class='row'>
+      <div class='offset5 card-table'>
+        {{#communityCards}}
+          {{>hand}}
+        {{/communityCards}}
+      </div>
     </div>
   </div>
 </body>

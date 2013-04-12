@@ -55,7 +55,7 @@
           return $('.card-table').empty();
         }
       });
-      return socket.on("cardsRevealed", function(html) {
+      socket.on("cardsRevealed", function(html) {
         var dialog;
 
         console.log("JAIS JAIS JAIS", html);
@@ -63,6 +63,9 @@
         dialog.find('h3').text("Cards have been revealed!");
         dialog.find('.modal-body p').html(html);
         return dialog.modal("show");
+      });
+      return socket.on("shownAnothersCards", function(data) {
+        return console.log("JAG HABIT!", data);
       });
     });
     $('.add-player .submit').click(function(event) {

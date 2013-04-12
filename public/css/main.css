@@ -1,6 +1,15 @@
 .container {
-  background: url('/img/dogs_player_poker.jpg') no-repeat;
+  background: url('/img/dogs_player_poker_no_cards.jpg') no-repeat;
   height: 100%;
+}
+
+.container.dealer {
+  background: url('/img/dealer_dogs_playing_poker.jpg') no-repeat;
+}
+
+.dealer-info {
+  background: white;
+  top: 200px;
 }
 
 h1, button {
@@ -111,14 +120,10 @@ li.player.Collie .portrait {
   display: none;
 }
 
-.game-area {
-
-}
-
 #your-cards {
   text-align: center;
   position: relative;
-  top: 648px;
+  top: 495px;
   left: 175px;
 }
 
@@ -134,9 +139,9 @@ li.player.Collie .portrait {
   -webkit-border-radius: 0.3em;
   -moz-border-radius: 0.3em;
   border-radius: 0.3em;
-  top: 526px;
-  left: 227px;
-  -webkit-perspective: 229;
+  top: 506px;
+  left: 206px;
+  -webkit-perspective: 250;
 }
 
 #community-cards .card {
@@ -145,9 +150,12 @@ li.player.Collie .portrait {
   -webkit-animation-iteration-count: 1;
   -webkit-transform: translateX(0deg);
   -webkit-animation-fill-mode: forwards;
+  -webkit-box-shadow: .1em .1em .02em #333;
+  -moz-box-shadow: .1em .1em .02em #333;
+  box-shadow: .1em .1em .02em #333;
 }
 
-#community-cards .card:hover {
+#community-cards .card-holder:hover .card {
   -webkit-animation-name: flipUp;
 }
 

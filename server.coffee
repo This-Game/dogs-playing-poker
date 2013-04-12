@@ -35,6 +35,7 @@ gameChannel.on "connection", (socket) ->
 
   socket.on "playerRejoined", (playerId) ->
     if player = game.possiblyFindPlayer(playerId)
+      player.socketId = socket.id
       gameChannel.emit "updatedPlayersList", renderPlayerList()
       gameChannel.emit "updatedCommunityCards", renderCommunityCards()
       socket.emit "playerJoined", player.id
@@ -44,6 +45,7 @@ gameChannel.on "connection", (socket) ->
 
   socket.on "addPlayer", (playerData) ->
     player = game.addPlayer(playerData)
+    player.socketId = socket.id
     gameChannel.emit "updatedPlayersList", renderPlayerList()
     gameChannel.emit "updatedCommunityCards", renderCommunityCards()
     gameChannel.emit "updatedDeck", deckSize: game.deck.size()
@@ -54,6 +56,8 @@ gameChannel.on "connection", (socket) ->
     [showingPlayer, otherPlayer] = game.findPlayers(showingPlayerId, otherPlayerId)
     cardData = showingPlayer.showCards(cardIds, otherPlayer)
     socket.emit "cardsRevealed", Views.revealedCards.render(cardData)
+    console.log "SOCKITOOMEE", showingPlayer.socketId, otherPlayer.socketId
+    ioServer.sockets.socket(otherPlayer.socketId).emit("shownAnothersCards", cardData.asTheySeeIt);
 
   socket.on "exchange", (playerId, cardIds) ->
     player = game.findPlayer(playerId)
@@ -70,10 +74,14 @@ app.get '/', (req, res) ->
   res.sendfile(__dirname + '/index.html')
 
 app.get '/dealer', (req, res) ->
-  res.send Views.dealer.render(
+  context =
     communityCards:
       cards: game.communityCards
     deckSize: game.deck.size()
-    playerList: game.players
-  )
+    players: _(game.players).values()
+    playerList:
+      players: _(game.players).values()
+
+  html = Views.dealer.render context, Views
+  res.send html
 

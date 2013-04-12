@@ -51,6 +51,9 @@ $ ->
       dialog.find('.modal-body p').html(html)
       dialog.modal("show")
 
+    socket.on "shownAnothersCards", (data) ->
+      console.log "JAG HABIT!", data
+
 # -------------- UI BINDINGS ---------------- #
 
   $('.add-player .submit').click (event) ->
