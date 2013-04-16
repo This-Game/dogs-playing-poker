@@ -7,9 +7,19 @@
   background: url('/img/dealer_dogs_playing_poker.jpg') no-repeat;
 }
 
+.container.dealer .card-table {
+  float: right;
+}
+
 .dealer-info {
   background: white;
+  opacity: 0.8;
   top: 200px;
+}
+
+.dealer-info .card-holder {
+  color: #000000;
+  opacity: 1.0;
 }
 
 h1, button {

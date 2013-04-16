@@ -55,7 +55,7 @@ class Greyhound extends Dog
     rank = if card.isFaceCard() or card.isAce()
       card.rank
     else
-      "Number"
+      "0"
     new Card rank, "blobs", card.id
 
 # Pugs can see COLOR

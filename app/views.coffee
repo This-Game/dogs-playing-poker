@@ -5,8 +5,8 @@ readTemplateFile = (templateName) ->
   fs.readFileSync(__dirname + "/../views/#{templateName}.mustache",  'utf8')
 
 exports.Views =
-  hand:
-    Hogan.compile(readTemplateFile 'hand')
+  cards:
+    Hogan.compile(readTemplateFile 'cards')
 
   playerList:
     Hogan.compile(readTemplateFile 'player-list')
@@ -16,6 +16,9 @@ exports.Views =
 
   dealer:
     Hogan.compile(readTemplateFile 'dealer')
+
+  dealerPlayerList:
+    Hogan.compile(readTemplateFile 'dealer-player-list')
 
   confirmCardReveal:
     Hogan.compile(readTemplateFile 'confirm-card-reveal')

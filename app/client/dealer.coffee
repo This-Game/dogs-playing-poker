@@ -1,10 +1,7 @@
-
 $ ->
-
   socket = io.connect "/game.prototype"
 
   socket.on "connect", ->
-
     socket.on "updatedCommunityCards", (cards) ->
       $('#community-cards').html(cards)
 

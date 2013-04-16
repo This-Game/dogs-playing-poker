@@ -27,10 +27,10 @@ renderPlayerList = ->
   Views.playerList.render players: _(game.players).values()
 
 renderCommunityCards = ->
-  Views.hand.render cards: game.communityCards
+  Views.cards.render cards: game.communityCards
 
 renderPlayerHand = (player) ->
-  Views.hand.render cards: player.perspectivalHand()
+  Views.cards.render cards: player.perspectivalHand()
 
 gameChannel.on "connection", (socket) ->
   socket.emit "updatedPlayersList", renderPlayerList()
@@ -97,7 +97,6 @@ app.get '/dealer', (req, res) ->
     players: _(game.players).values()
     playerList:
       players: _(game.players).values()
-
   html = Views.dealer.render context, Views
   res.send html
 

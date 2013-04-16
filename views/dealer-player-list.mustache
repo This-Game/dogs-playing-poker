@@ -1,0 +1,19 @@
+<ul>
+{{#players}}
+  <div class='card-table'>
+  {{#hand}}
+    <div class="card-holder">
+      <span id="{{id}}" class="card {{suitClass}}">
+        <span class="rank">{{rankName}}</span>
+        <span class="suit">{{{suitSymbol}}}</span>
+      </span><br/>
+    </div>
+  {{/hand}}
+  </div>
+
+  <li id='{{id}}' class="player {{kindOfDog}}">
+    <div class="portrait"></div>
+    <div class="caption">{{name}}</div>
+  </li>
+{{/players}}
+</ul>
