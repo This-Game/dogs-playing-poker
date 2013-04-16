@@ -1,5 +1,12 @@
+makeDogName = ->
+  firstNames = ['Wiggles', 'Spots', 'Rumples', 'Hank', 'Max', 'Buddy', 'Rocky', 'Lassie']
+  lastNames = ['Roverly', 'Clegane', 'Spottington', 'Sniftler', 'Schmupft', 'Sanchez', "O'Brien"]
+  firstNames[Math.floor(Math.random() * firstNames.length)] + ' ' +
+  lastNames[Math.floor(Math.random() * lastNames.length)]
+
 $ ->
   $('.modal').modal show: false
+  $('.add-player [name="name"]').val(makeDogName()).trigger('focus')
 
   currentPlayer = ->
     $.cookie('current-player')
@@ -18,8 +25,8 @@ $ ->
 
   socket = io.connect "/game.prototype"
   socket.emit "playerRejoined", currentPlayer() if currentPlayer()?
-# -------------- SOCKET.IO BINDINGS ---------------- #
 
+# -------------- SOCKET.IO BINDINGS ---------------- #
   socket.on "connect", ->
     socket.emit "playerRejoined", currentPlayer() if currentPlayer()?
 
@@ -44,15 +51,23 @@ $ ->
         $('.add-player').show()
         $('.card-table').empty()
 
+    socket.on "askToShow", (data) ->
+      cards = data.cardIds
+      dialog = $('.modal')
+      dialog.find('h3').text("#{data.playerName} wants to show you #{cards.length} cards.")
+      dialog.find('.modal-body p').html("Is this cool?")
+      dialog.modal("show")
+      debugger
+
     socket.on "cardsRevealed", (html) ->
-      console.log "JAIS JAIS JAIS", html
       dialog = $('.modal')
       dialog.find('h3').text("Cards have been revealed!")
       dialog.find('.modal-body p').html(html)
       dialog.modal("show")
 
-    socket.on "shownAnothersCards", (data) ->
-      console.log "JAG HABIT!", data
+    socket.on "shownAnothersCards", (html) ->
+      debugger
+      console.log "JAG HABIT!", html
 
 # -------------- UI BINDINGS ---------------- #
 
@@ -84,7 +99,7 @@ $ ->
       event = button.attr('class').split(' ')[1]
       cardIds = (card.id for card in $('.card-table .selected'))
       if event is 'show'
-        otherPlayerId = $('.players .player.selected')[0].id
+        otherPlayerId = $('.players .player.selected')[0].id if $('.players .player.selected')[0]
         socket.emit event, currentPlayer(), cardIds, otherPlayerId
       else
         socket.emit event, currentPlayer(), cardIds

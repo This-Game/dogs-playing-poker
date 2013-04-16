@@ -52,12 +52,16 @@ gameChannel.on "connection", (socket) ->
     socket.emit "playerJoined", player.id
     socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
 
-  socket.on "show", (showingPlayerId, cardIds, otherPlayerId) ->
+  socket.on "doShow", (showingPlayerId, cardIds, otherPlayerId) ->
     [showingPlayer, otherPlayer] = game.findPlayers(showingPlayerId, otherPlayerId)
     cardData = showingPlayer.showCards(cardIds, otherPlayer)
     socket.emit "cardsRevealed", Views.revealedCards.render(cardData)
-    console.log "SOCKITOOMEE", showingPlayer.socketId, otherPlayer.socketId
+    console.log "SOCKITOOMEE", showingPlayer.socketId, otherPlayer.socketId, ioServer.sockets.socket(otherPlayer.socketId)
     ioServer.sockets.socket(otherPlayer.socketId).emit("shownAnothersCards", cardData.asTheySeeIt);
+
+  socket.on "show", (showingPlayerId, cardIds, otherPlayerId) ->
+    [showingPlayer, otherPlayer] = game.findPlayers(showingPlayerId, otherPlayerId)
+    ioServer.of('/game.prototype').sockets[otherPlayer.socketId].emit("askToShow", playerName: showingPlayer.name, cardIds: cardIds)
 
   socket.on "exchange", (playerId, cardIds) ->
     player = game.findPlayer(playerId)
@@ -65,10 +69,14 @@ gameChannel.on "connection", (socket) ->
     gameChannel.emit "updatedDeck", deckSize: game.deck.size(), playerId: player.id
     socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
 
+  socket.on "dealToTable", (num = 1) ->
+    game.dealCommunityCards num
+    gameChannel.emit "updatedCommunityCards", renderCommunityCards()
+
   socket.on "leaveGame", (playerId) ->
     game.removePlayer(playerId)
     gameChannel.emit "updatedPlayersList", renderPlayerList()
-    socket.emit "playerLeft", playerName
+    socket.emit "playerLeft", playerId
 
 app.get '/', (req, res) ->
   res.sendfile(__dirname + '/index.html')

@@ -1,10 +1,21 @@
 (function() {
+  var makeDogName;
+
+  makeDogName = function() {
+    var firstNames, lastNames;
+
+    firstNames = ['Wiggles', 'Spots', 'Rumples', 'Hank', 'Max', 'Buddy', 'Rocky', 'Lassie'];
+    lastNames = ['Roverly', 'Clegane', 'Spottington', 'Sniftler', 'Schmupft', 'Sanchez', "O'Brien"];
+    return firstNames[Math.floor(Math.random() * firstNames.length)] + ' ' + lastNames[Math.floor(Math.random() * lastNames.length)];
+  };
+
   $(function() {
     var currentPlayer, resetControls, setCurrentPlayer, socket;
 
     $('.modal').modal({
       show: false
     });
+    $('.add-player [name="name"]').val(makeDogName()).trigger('focus');
     currentPlayer = function() {
       return $.cookie('current-player');
     };
@@ -55,17 +66,26 @@
           return $('.card-table').empty();
         }
       });
+      socket.on("askToShow", function(data) {
+        var cards, dialog;
+
+        cards = data.cardIds;
+        dialog = $('.modal');
+        dialog.find('h3').text("" + data.playerName + " wants to show you " + cards.length + " cards.");
+        dialog.find('.modal-body p').html("Is this cool?");
+        dialog.modal("show");
+        debugger;
+      });
       socket.on("cardsRevealed", function(html) {
         var dialog;
 
-        console.log("JAIS JAIS JAIS", html);
         dialog = $('.modal');
         dialog.find('h3').text("Cards have been revealed!");
         dialog.find('.modal-body p').html(html);
         return dialog.modal("show");
       });
-      return socket.on("shownAnothersCards", function(data) {
-        return console.log("JAG HABIT!", data);
+      return socket.on("shownAnothersCards", function(html) {
+        debugger;        return console.log("JAG HABIT!", html);
       });
     });
     $('.add-player .submit').click(function(event) {
@@ -120,7 +140,9 @@
           return _results;
         })();
         if (event === 'show') {
-          otherPlayerId = $('.players .player.selected')[0].id;
+          if ($('.players .player.selected')[0]) {
+            otherPlayerId = $('.players .player.selected')[0].id;
+          }
           socket.emit(event, currentPlayer(), cardIds, otherPlayerId);
         } else {
           socket.emit(event, currentPlayer(), cardIds);

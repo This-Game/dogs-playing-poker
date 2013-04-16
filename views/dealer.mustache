@@ -9,6 +9,8 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="js/client/jquery.cookie.js"></script>
+  <script src="js/client/dealer.js"></script>
+
 </head>
 <body>
   <div class="modal hide fade">
@@ -35,17 +37,15 @@
           {{>playerList}}
         </div>
         <p>deck size: {{deckSize}}</p>
-
       </div>
       <div class="players span2">
         <div class='controls'>
-          <button class='btn show' data-text="Show Cards">Deal Cards</button>
-          <button class='btn exchange' data-text="Exchange Cards">Kick out players</button>
+          <button class='btn deal-to-table' data-text="Deal to Table">Deal to Table</button>
         </div>
       </div>
     </div>
     <div class='row'>
-      <div class='offset5 card-table'>
+      <div id="community-cards" class='offset5 card-table'>
         {{#communityCards}}
           {{>hand}}
         {{/communityCards}}

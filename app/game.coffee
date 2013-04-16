@@ -9,7 +9,7 @@ class Game
   constructor: ->
     @players = {}
     @deck = new Deck
-    @communityCards = @deck.take 3
+    @communityCards = []
 
   addPlayer: (player) ->
     unless @possiblyFindPlayer(player.id)
@@ -18,6 +18,9 @@ class Game
       console.log "Added player #{player.name} :: #{player.id}", player.hand
       @players[player.id] = player
       player
+
+  dealCommunityCards: (number) ->
+    @communityCards = @communityCards.concat @deck.take(number)
 
   findPlayer: (id) ->
     player = @possiblyFindPlayer(id)

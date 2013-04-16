@@ -17,4 +17,7 @@ exports.Views =
   dealer:
     Hogan.compile(readTemplateFile 'dealer')
 
+  confirmCardReveal:
+    Hogan.compile(readTemplateFile 'confirm-card-reveal')
+
 Hogan.partials
