@@ -46,8 +46,8 @@ h1, button {
   display: inline;
 }
 
-li.player.thatsYou .portrait {
-  border: 3px solid yellow;
+li.player.thats-you .portrait {
+  border: 3px solid green;
 }
 
 .players {
@@ -95,6 +95,7 @@ li.player .portrait {
   width: 100px;
   height: 100px;
   background: yellow;
+  border: 3px solid transparent;
 }
 
 li.player.selected .portrait {

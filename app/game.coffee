@@ -8,19 +8,23 @@ class Game
 
   constructor: ->
     @players = {}
-    @deck = new Deck
     @communityCards = []
+    @deck = new Deck
 
   addPlayer: (player) ->
+    console.log "Adding player:", player, @possiblyFindPlayer(player.id)
     unless @possiblyFindPlayer(player.id)
-      dealtCards = @deck.take 5
-      player = Dog.newByType(player, dealtCards)
-      console.log "Added player #{player.name} :: #{player.id}", player.hand
+      player = Dog.newByType(player)
       @players[player.id] = player
       player
 
   dealCommunityCards: (number) ->
     @communityCards = @communityCards.concat @deck.take(number)
+
+  dealToPlayers: (number) ->
+    for player in _(@players).values()
+      cards = @deck.take(number)
+      player.setHand player.hand.concat(cards)
 
   findPlayer: (id) ->
     player = @possiblyFindPlayer(id)

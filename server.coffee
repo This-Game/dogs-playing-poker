@@ -55,15 +55,23 @@ gameChannel.on "connection", (socket) ->
     socket.emit "updatedHand", renderPlayerHand(player)
 
   socket.on "doShow", (showingPlayerId, cardIds, otherPlayerId) ->
-    [showingPlayer, otherPlayer] = game.findPlayers(showingPlayerId, otherPlayerId)
-    cardData = showingPlayer.showCards(cardIds, otherPlayer)
-    socket.emit "cardsRevealed", Views.revealedCards.render(cardData)
-    console.log "SOCKITOOMEE", showingPlayer.socketId, otherPlayer.socketId, ioServer.sockets.socket(otherPlayer.socketId)
-    ioServer.sockets.socket(otherPlayer.socketId).emit("shownAnothersCards", cardData.asTheySeeIt);
+    [showingPlayer, shownPlayer] = game.findPlayers(showingPlayerId, otherPlayerId)
+    cardData = showingPlayer.showCards(cardIds, shownPlayer)
+    shownPlayerView = Views.revealedCards.render(asYouSeeIt: cardData.shownPlayer, asTheySeeIt: cardData.showingPlayer)
+    showingPlayerView = Views.revealedCards.render(asYouSeeIt: cardData.showingPlayer, asTheySeeIt: cardData.shownPlayer)
+    ioServer.of('/game.prototype').sockets[showingPlayer.socketId].emit "cardsRevealed", showingPlayerView
+    ioServer.of('/game.prototype').sockets[shownPlayer.socketId].emit "cardsRevealed", shownPlayerView
 
   socket.on "show", (showingPlayerId, cardIds, otherPlayerId) ->
     [showingPlayer, otherPlayer] = game.findPlayers(showingPlayerId, otherPlayerId)
-    ioServer.of('/game.prototype').sockets[otherPlayer.socketId].emit("askToShow", playerName: showingPlayer.name, cardIds: cardIds)
+    context =
+      playerName: showingPlayer.name,
+      cardIds: JSON.stringify(cardIds),
+      cardNumber: cardIds.length
+      shownPlayerId: otherPlayerId,
+      showingPlayerId: showingPlayerId
+    html = Views.confirmCardReveal.render(context, Views)
+    ioServer.of('/game.prototype').sockets[otherPlayer.socketId].emit("askToShow", html)
 
   socket.on "exchange", (playerId, cardIds) ->
     player = game.findPlayer(playerId)
@@ -80,6 +88,11 @@ gameChannel.on "connection", (socket) ->
   socket.on "dealToTable", (num = 1) ->
     game.dealCommunityCards num
     gameChannel.emit "updatedCommunityCards", renderCommunityCards()
+
+  socket.on "dealToPlayers", (num = 1) ->
+    game.dealToPlayers(num)
+    for player in _(game.players).values()
+      ioServer.of('/game.prototype').sockets[player.socketId].emit("updatedHand", renderPlayerHand(player))
 
   socket.on "leaveGame", (playerId) ->
     game.removePlayer(playerId)

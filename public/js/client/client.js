@@ -12,7 +12,7 @@
   $(function() {
     var currentPlayer, resetControls, setCurrentPlayer, socket;
 
-    $('.modal').modal({
+    $('.revealed-cards').modal({
       show: false
     });
     $('.add-player [name="name"]').val(makeDogName()).trigger('focus');
@@ -57,7 +57,8 @@
         setCurrentPlayer(playerId);
         $('.controls').removeClass('hidden');
         $('.leave-game').show();
-        return $('.add-player').hide();
+        $('.add-player').hide();
+        return $(".players #" + (currentPlayer())).addClass("thats-you");
       });
       socket.on("playerLeft", function(playerId) {
         if (currentPlayer() === playerId) {
@@ -66,26 +67,20 @@
           return $('.card-table').empty();
         }
       });
-      socket.on("askToShow", function(data) {
-        var cards, dialog;
-
-        cards = data.cardIds;
-        dialog = $('.modal');
-        dialog.find('h3').text("" + data.playerName + " wants to show you " + cards.length + " cards.");
-        dialog.find('.modal-body p').html("Is this cool?");
-        dialog.modal("show");
-        debugger;
-      });
-      socket.on("cardsRevealed", function(html) {
+      socket.on("askToShow", function(html) {
         var dialog;
 
-        dialog = $('.modal');
-        dialog.find('h3').text("Cards have been revealed!");
-        dialog.find('.modal-body p').html(html);
-        return dialog.modal("show");
+        dialog = $(html);
+        $('body').append(dialog);
+        return dialog.modal();
       });
-      return socket.on("shownAnothersCards", function(html) {
-        debugger;        return console.log("JAG HABIT!", html);
+      return socket.on("cardsRevealed", function(html) {
+        var dialog;
+
+        dialog = $(html);
+        $('body').append(dialog);
+        dialog.modal();
+        debugger;
       });
     });
     $('.add-player .submit').click(function(event) {
@@ -110,11 +105,23 @@
         return $('.card-table').empty();
       }
     });
+    $(document).on('click', '.confirm-card .btn-primary', function() {
+      var modal;
+
+      modal = $(this).parents('.confirm-card');
+      socket.emit("doShow", modal.data('showing-player-id'), modal.data('cardIds'), modal.data('shownPlayerId'));
+      return modal.modal('hide');
+    });
     $('#your-cards').on("click", '.card', function() {
       return $(this).toggleClass('selected');
     });
     $('.players').on("click", '.player', function() {
-      return $(this).toggleClass('selected');
+      var el;
+
+      el = $(this);
+      if (!el.hasClass('thats-you')) {
+        return el.toggleClass('selected');
+      }
     });
     return $('.controls').on("click", "button", function() {
       var button, originaltext;

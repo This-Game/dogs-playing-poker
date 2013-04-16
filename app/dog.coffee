@@ -2,7 +2,7 @@
 {Util} = require './util.coffee'
 
 class Dog
-  constructor: (playerData, cards) ->
+  constructor: (playerData, cards = []) ->
     @id ?= Util.makeGUID()
     @name = playerData.name
     @kindOfDog = playerData.kindOfDog
@@ -12,7 +12,7 @@ class Dog
     DogType = @byName[playerData.kindOfDog]
     new DogType(playerData, cards)
 
-  name: (handOfCards) ->
+  name: ->
     @constructor.name
 
   perspectivalHand: (aHand) ->
@@ -28,14 +28,14 @@ class Dog
       throw "Hot holy cold mold, #{card.constructor.name} isn't a card.\n #{card}"
 
   setHand: (cards) ->
-    console.log "Setting hand", cards
+    console.log "Setting hand", @name, cards
     @hand = cards
 
   showCards: (cardIds, otherPlayer) ->
     cards = (Card.reconstitute id for id in cardIds)
-    asYouSeeIt:
+    showingPlayer:
       cards: this.read(cards)
-    asTheySeeIt:
+    shownPlayer:
       cards: otherPlayer.read(cards)
 
 # Collies know numbers and letters, i.e. anything but face cards

@@ -10,5 +10,8 @@ $ ->
   $('.controls').on 'click', '.deal-to-table', ->
     socket.emit 'dealToTable'
 
+  $('.controls').on 'click', '.deal-to-players', ->
+    socket.emit 'dealToPlayers'
+
   $('.controls').on 'click', '.reset-game', ->
     socket.emit 'resetGame'

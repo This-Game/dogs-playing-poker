@@ -11,6 +11,9 @@
     $('.controls').on('click', '.deal-to-table', function() {
       return socket.emit('dealToTable');
     });
+    $('.controls').on('click', '.deal-to-players', function() {
+      return socket.emit('dealToPlayers');
+    });
     return $('.controls').on('click', '.reset-game', function() {
       return socket.emit('resetGame');
     });

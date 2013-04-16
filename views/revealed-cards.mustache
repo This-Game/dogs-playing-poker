@@ -1,29 +1,40 @@
-<div class="card-table">
-  <p>The cards you see this way:</p>
-  {{#asYouSeeIt}}
-  <div class="hand">
-    {{#cards}}
-    <div class="card-holder">
-      <span id="{{id}}" class="card {{suitClass}}">
-        <span class="rank">{{rankName}}</span>
-        <span class="suit">{{{suitSymbol}}}</span>
-      </span><br/>
-    </div>
-    {{/cards}}
+<div class="revealed-cards modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Cards Revealed</h3>
   </div>
-  {{/asYouSeeIt}}
+  <div class="modal-body">
+    <div class="card-table">
+      <p>The cards you see this way:</p>
+      {{#asYouSeeIt}}
+      <div class="hand">
+        {{#cards}}
+        <div class="card-holder">
+          <span id="{{id}}" class="card {{suitClass}}">
+            <span class="rank">{{rankName}}</span>
+            <span class="suit">{{{suitSymbol}}}</span>
+          </span><br/>
+        </div>
+        {{/cards}}
+      </div>
+      {{/asYouSeeIt}}
 
-  <p>They see this way:</p>
-  {{#asTheySeeIt}}
-  <div class="hand">
-    {{#cards}}
-    <div class="card-holder">
-      <span id="{{id}}" class="card {{suitClass}}">
-        <span class="rank">{{rankName}}</span>
-        <span class="suit">{{{suitSymbol}}}</span>
-      </span><br/>
+      <p>They see this way:</p>
+      {{#asTheySeeIt}}
+      <div class="hand">
+        {{#cards}}
+        <div class="card-holder">
+          <span id="{{id}}" class="card {{suitClass}}">
+            <span class="rank">{{rankName}}</span>
+            <span class="suit">{{{suitSymbol}}}</span>
+          </span><br/>
+        </div>
+        {{/cards}}
+      </div>
+      {{/asTheySeeIt}}
     </div>
-    {{/cards}}
   </div>
-  {{/asTheySeeIt}}
+  <div class="modal-footer">
+    <a href="#" data-dismiss="modal" class="btn btn-primary">COOL</a>
+  </div>
 </div>

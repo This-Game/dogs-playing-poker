@@ -5,7 +5,7 @@ makeDogName = ->
   lastNames[Math.floor(Math.random() * lastNames.length)]
 
 $ ->
-  $('.modal').modal show: false
+  $('.revealed-cards').modal show: false
   $('.add-player [name="name"]').val(makeDogName()).trigger('focus')
 
   currentPlayer = ->
@@ -44,6 +44,7 @@ $ ->
       $('.controls').removeClass 'hidden'
       $('.leave-game').show()
       $('.add-player').hide()
+      $(".players ##{currentPlayer()}").addClass("thats-you")
 
     socket.on "playerLeft", (playerId) ->
       if currentPlayer() is playerId
@@ -51,23 +52,16 @@ $ ->
         $('.add-player').show()
         $('.card-table').empty()
 
-    socket.on "askToShow", (data) ->
-      cards = data.cardIds
-      dialog = $('.modal')
-      dialog.find('h3').text("#{data.playerName} wants to show you #{cards.length} cards.")
-      dialog.find('.modal-body p').html("Is this cool?")
-      dialog.modal("show")
-      debugger
+    socket.on "askToShow", (html) ->
+      dialog = $(html)
+      $('body').append(dialog)
+      dialog.modal()
 
     socket.on "cardsRevealed", (html) ->
-      dialog = $('.modal')
-      dialog.find('h3').text("Cards have been revealed!")
-      dialog.find('.modal-body p').html(html)
-      dialog.modal("show")
-
-    socket.on "shownAnothersCards", (html) ->
+      dialog = $(html)
+      $('body').append(dialog)
+      dialog.modal()
       debugger
-      console.log "JAG HABIT!", html
 
 # -------------- UI BINDINGS ---------------- #
 
@@ -86,8 +80,17 @@ $ ->
       $('.add-player').show()
       $('.card-table').empty()
 
-  $('#your-cards').on "click", '.card', -> $(this).toggleClass 'selected'
-  $('.players').on "click", '.player', -> $(this).toggleClass 'selected'
+  $(document).on 'click', '.confirm-card .btn-primary', ->
+    modal = $(this).parents('.confirm-card')
+    socket.emit "doShow", modal.data('showing-player-id'), modal.data('cardIds'), modal.data('shownPlayerId')
+    modal.modal('hide')
+
+  $('#your-cards').on "click", '.card', ->
+    $(this).toggleClass 'selected'
+
+  $('.players').on "click", '.player', ->
+    el = $(this)
+    el.toggleClass 'selected' unless el.hasClass('thats-you')
 
   $('.controls').on "click", "button", ->
     button = $(this)
