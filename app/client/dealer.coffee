@@ -11,5 +11,7 @@ $ ->
 # -------------- END SOCKET.IO BINDINGS ---------------- #
 
   $('.controls').on 'click', '.deal-to-table', ->
-    console.log 'yayuh'
     socket.emit 'dealToTable'
+
+  $('.controls').on 'click', '.reset-game', ->
+    socket.emit 'resetGame'

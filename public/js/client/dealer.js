@@ -8,9 +8,11 @@
         return $('#community-cards').html(cards);
       });
     });
-    return $('.controls').on('click', '.deal-to-table', function() {
-      console.log('yayuh');
+    $('.controls').on('click', '.deal-to-table', function() {
       return socket.emit('dealToTable');
+    });
+    return $('.controls').on('click', '.reset-game', function() {
+      return socket.emit('resetGame');
     });
   });
 

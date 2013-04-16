@@ -29,8 +29,10 @@ renderPlayerList = ->
 renderCommunityCards = ->
   Views.hand.render cards: game.communityCards
 
+renderPlayerHand = (player) ->
+  Views.hand.render cards: player.perspectivalHand()
+
 gameChannel.on "connection", (socket) ->
-  console.log "Connecting."
   socket.emit "updatedPlayersList", renderPlayerList()
 
   socket.on "playerRejoined", (playerId) ->
@@ -39,7 +41,7 @@ gameChannel.on "connection", (socket) ->
       gameChannel.emit "updatedPlayersList", renderPlayerList()
       gameChannel.emit "updatedCommunityCards", renderCommunityCards()
       socket.emit "playerJoined", player.id
-      socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
+      socket.emit "updatedHand", renderPlayerHand(player)
     else
       socket.emit "playerLeft", playerId
 
@@ -50,7 +52,7 @@ gameChannel.on "connection", (socket) ->
     gameChannel.emit "updatedCommunityCards", renderCommunityCards()
     gameChannel.emit "updatedDeck", deckSize: game.deck.size()
     socket.emit "playerJoined", player.id
-    socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
+    socket.emit "updatedHand", renderPlayerHand(player)
 
   socket.on "doShow", (showingPlayerId, cardIds, otherPlayerId) ->
     [showingPlayer, otherPlayer] = game.findPlayers(showingPlayerId, otherPlayerId)
@@ -67,7 +69,13 @@ gameChannel.on "connection", (socket) ->
     player = game.findPlayer(playerId)
     game.exchange player, cardIds
     gameChannel.emit "updatedDeck", deckSize: game.deck.size(), playerId: player.id
-    socket.emit "updatedHand", Views.hand.render(cards: player.perspectivalHand())
+    socket.emit "updatedHand", renderPlayerHand(player)
+
+  socket.on "resetGame", ->
+    game = new Game
+    socket.emit "updatedHand", renderPlayerHand(player)
+    gameChannel.emit "updatedCommunityCards", renderCommunityCards()
+    gameChannel.emit "updatedPlayersList", renderPlayerList()
 
   socket.on "dealToTable", (num = 1) ->
     game.dealCommunityCards num
