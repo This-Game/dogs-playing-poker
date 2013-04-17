@@ -79,8 +79,7 @@
 
         dialog = $(html);
         $('body').append(dialog);
-        dialog.modal();
-        debugger;
+        return dialog.modal();
       });
     });
     $('.add-player .submit').click(function(event) {

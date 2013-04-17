@@ -20,7 +20,7 @@ class Card
     @rank is 'A'
 
   isFaceCard: ->
-    @value > 10 and @value < 14
+    @value() > 10 and @value() < 14
 
   color: ->
     if @suit in ["Diamonds", "Hearts"] then "Red" else "Black"
@@ -34,7 +34,6 @@ class Card
       when "K" then "K"
       when "Q" then "Queen"
       when "J" then "Jack"
-      when "Number" then "٢"
       else @rank
 
   suitSymbol: ->

@@ -102,6 +102,9 @@ gameChannel.on "connection", (socket) ->
 app.get '/', (req, res) ->
   res.sendfile(__dirname + '/index.html')
 
+app.get '/rules', (req, res) ->
+  res.send(Views.rules.render())
+
 app.get '/dealer', (req, res) ->
   context =
     communityCards:

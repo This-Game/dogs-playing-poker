@@ -61,7 +61,6 @@ $ ->
       dialog = $(html)
       $('body').append(dialog)
       dialog.modal()
-      debugger
 
 # -------------- UI BINDINGS ---------------- #
 

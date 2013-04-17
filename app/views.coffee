@@ -23,4 +23,7 @@ exports.Views =
   confirmCardReveal:
     Hogan.compile(readTemplateFile 'confirm-card-reveal')
 
+  rules:
+    Hogan.compile(readTemplateFile 'rules')
+
 Hogan.partials

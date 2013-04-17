@@ -38,7 +38,7 @@ class Dog
     shownPlayer:
       cards: otherPlayer.read(cards)
 
-# Collies know numbers and letters, i.e. anything but face cards
+# Collies know numbers
 class Collie extends Dog
   valueFor: (card) ->
     super(card)
@@ -63,10 +63,10 @@ class Greyhound extends Dog
 class Pug extends Dog
   valueFor: (card) ->
     super(card)
-    rank = if card.isFaceCard() then "Person" else "Number"
+    rank = if card.isFaceCard() then "High Card" else "Number"
     new Card rank, card.color(), card.id
 
-# Pugs can make out shapes; i.e. they know suits
+# Corgis can make out shapes; i.e. they know suits
 class Corgi extends Dog
   valueFor: (card) ->
     super(card)
